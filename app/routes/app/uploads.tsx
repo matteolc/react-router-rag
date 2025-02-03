@@ -4,7 +4,7 @@ export default function Screen() {
   return (
     <>
       <HeadingWrapper>
-        <Heading>Home</Heading>
+        <Heading>Uploads</Heading>
       </HeadingWrapper>
     </>
   );
