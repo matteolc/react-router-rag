@@ -62,28 +62,32 @@ export const columns: ColumnDef<Tables<"uploads">>[] = [
   },
   {
     accessorKey: "size",
-    size: 160,
+    size: 140,
+    minSize: 140,
+    maxSize: 140,
     header: ({ column }) => (
-      <div className="w-[160px] flex justify-end">
+      <div className="w-[140px] flex justify-end">
         <DataTableColumnHeader column={column} title="Size" />
       </div>
     ),
     cell: ({ row }) => (
-      <div className="truncate max-w-[160px] flex justify-end">
+      <div className="truncate max-w-[140px] flex justify-end">
         {humanReadableFileSize(row.getValue("size"))}
       </div>
     ),
   },
   {
     accessorKey: "type",
-    size: 100,
+    size: 60,
+    minSize: 60,
+    maxSize: 60,
     header: ({ column }) => (
-      <div className="w-[100px] flex justify-end">
+      <div className="w-[60px] flex justify-end">
         <DataTableColumnHeader column={column} title="Type" />
       </div>
     ),
     cell: ({ row }) => (
-      <div className="truncate max-w-[100px] flex justify-end">
+      <div className="truncate max-w-[60px] flex justify-end">
         <Badge variant="outline" className="text-xs">
           {humanReadableMIMEType(row.getValue("type"))}
         </Badge>
@@ -95,9 +99,9 @@ export const columns: ColumnDef<Tables<"uploads">>[] = [
   },
   {
     id: "actions",
-    size: 100,
+    size: 50,
     cell: ({ row }) => (
-      <div className="flex justify-end">
+      <div className="mx-2 flex justify-end">
         <DataTableRowActions row={row} />
       </div>
     ),

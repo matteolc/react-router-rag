@@ -4,6 +4,7 @@ import { CloudIcon } from "lucide-react";
 import { useCallback, useState } from "react";
 import { Progress } from "~/components/ui/progress";
 import { Form } from "react-router";
+import { Checkbox } from "~/components/ui/checkbox";
 
 export const DragAndDropZone = ({
   namespace,
@@ -16,6 +17,7 @@ export const DragAndDropZone = ({
   const [uploadProgress, setUploadProgress] = useState(0);
   const [uploadQueue, setUploadQueue] = useState<File[]>([]);
   const [processedFiles, setProcessedFiles] = useState<number>(0);
+  const [keepInCloud, setKeepInCloud] = useState(true);
 
   const createBlob = useCallback(
     async (files: FileList) => {
@@ -30,7 +32,7 @@ export const DragAndDropZone = ({
           await upload(file.name, file, {
             access: "public",
             handleUploadUrl: `/api/upload/pdf?namespace=${namespace}`,
-            clientPayload: JSON.stringify({ namespace }),
+            clientPayload: JSON.stringify({ namespace, keepInCloud }),
             onUploadProgress: (progress) => {
               setUploadProgress(Math.round(progress.percentage));
             },
@@ -47,7 +49,7 @@ export const DragAndDropZone = ({
         onUploadComplete?.();
       }
     },
-    [namespace, onUploadComplete],
+    [namespace, onUploadComplete, keepInCloud],
   );
 
   const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -64,55 +66,70 @@ export const DragAndDropZone = ({
 
   return (
     <Form>
-      <div className="flex w-full items-center justify-center">
-        <label
-          htmlFor={"file-upload"}
-          aria-disabled={isUploading}
-          className={clsx(
-            isUploading
-              ? ""
-              : "cursor-pointer hover:bg-accent hover:bg-opacity-10",
-            "flex h-64 w-full flex-col items-center justify-center rounded-lg border-2 border-dashed border-border bg-accent bg-opacity-60",
-          )}
-        >
-          <div className="flex flex-col items-center justify-center pb-6 pt-5 text-accent-foreground">
-            {!isUploading ? (
-              <>
-                <CloudIcon />
-                <p className="text-md mb-2">
-                  <span className="font-semibold">Click to upload</span> or drag
-                  and drop
-                </p>
-                <p className="text-xs">Supports PDF files</p>
-              </>
-            ) : (
-              <div className="flex flex-col items-center gap-4">
-                <Progress value={totalProgress} className="h-2 w-full" />
-                <div className="text-center">
-                  <p className="text-md mb-1">
-                    Uploading {Math.round(totalProgress)}% ({processedFiles} of{" "}
-                    {uploadQueue.length})
-                  </p>
-                  <p className="text-xs text-muted-foreground">
-                    {processedFiles === uploadQueue.length
-                      ? "Finalizing uploads..."
-                      : "Processing files..."}
-                  </p>
-                </div>
-              </div>
+      <div className="flex w-full flex-col gap-4">
+        <div className="flex items-center space-x-2">
+          <Checkbox
+            id="keepInCloud"
+            checked={keepInCloud}
+            onCheckedChange={(checked) => setKeepInCloud(checked === true)}
+          />
+          <label
+            htmlFor="keepInCloud"
+            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          >
+            Keep files in cloud storage for later retrieval
+          </label>
+        </div>
+        <div className="flex w-full items-center justify-center">
+          <label
+            htmlFor={"file-upload"}
+            aria-disabled={isUploading}
+            className={clsx(
+              isUploading
+                ? ""
+                : "cursor-pointer hover:bg-accent hover:bg-opacity-10",
+              "flex h-64 w-full flex-col items-center justify-center rounded-lg border-2 border-dashed border-border bg-accent bg-opacity-60",
             )}
-          </div>
-        </label>
-        <input
-          id={"file-upload"}
-          type="file"
-          className="hidden"
-          name={"file-upload"}
-          multiple={true}
-          onChange={handleChange}
-          disabled={isUploading}
-          accept="application/pdf"
-        />
+          >
+            <div className="flex flex-col items-center justify-center pb-6 pt-5 text-accent-foreground">
+              {!isUploading ? (
+                <>
+                  <CloudIcon />
+                  <p className="text-md mb-2">
+                    <span className="font-semibold">Click to upload</span> or drag
+                    and drop
+                  </p>
+                  <p className="text-xs">Supports PDF files</p>
+                </>
+              ) : (
+                <div className="flex flex-col items-center gap-4">
+                  <Progress value={totalProgress} className="h-2 w-full" />
+                  <div className="text-center">
+                    <p className="text-md mb-1">
+                      Uploading {Math.round(totalProgress)}% ({processedFiles} of{" "}
+                      {uploadQueue.length})
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      {processedFiles === uploadQueue.length
+                        ? "Finalizing uploads..."
+                        : "Processing files..."}
+                    </p>
+                  </div>
+                </div>
+              )}
+            </div>
+          </label>
+          <input
+            id={"file-upload"}
+            type="file"
+            className="hidden"
+            name={"file-upload"}
+            multiple={true}
+            onChange={handleChange}
+            disabled={isUploading}
+            accept="application/pdf"
+          />
+        </div>
       </div>
     </Form>
   );

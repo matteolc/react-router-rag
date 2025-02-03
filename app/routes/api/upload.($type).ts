@@ -7,12 +7,7 @@ import { handleUpload, type HandleUploadBody } from "@vercel/blob/client";
 import { del } from "@vercel/blob";
 import { data } from "react-router";
 import { pdfToVectorStore } from "~/services/pdf-to-vector-store";
-import {
-  createUploads,
-  deleteAllUploads,
-  deleteUploads,
-  selectAllUploadNames,
-} from "~/services/uploads";
+import { createUploads, deleteUploads } from "~/services/uploads";
 
 export const action = async ({ request, params }: Route.ActionArgs) => {
   const { type } = params;
@@ -52,6 +47,7 @@ export const action = async ({ request, params }: Route.ActionArgs) => {
                 tokenPayload: JSON.stringify({
                   profileId: profile.id,
                   namespace: payload.namespace || namespace,
+                  keepInCloud: payload.keepInCloud || true,
                 }),
               };
             },
@@ -80,7 +76,10 @@ export const action = async ({ request, params }: Route.ActionArgs) => {
                   profileId,
                   namespace: uploadNamespace,
                   supabase,
-                })([file], [{ url: downloadUrl }]);
+                })(
+                  [file],
+                  [{ url: parsedPayload.keepInCloud ? downloadUrl : null }],
+                );
 
                 if (error) {
                   return;
@@ -95,8 +94,10 @@ export const action = async ({ request, params }: Route.ActionArgs) => {
                   },
                   vectorStore,
                 });
-                // Make this configurable
-                await del(blob.url);
+
+                if (!parsedPayload.keepInCloud) {
+                  await del(blob.url);
+                }
               } catch (error) {
                 console.error(error);
               }
@@ -120,14 +121,39 @@ export const action = async ({ request, params }: Route.ActionArgs) => {
           const ids = formData.getAll("ids") as string[];
 
           try {
-            const { ids: deletedIds, error } = await deleteUploads({
-              profileId: profile.id,
-              namespace,
-              supabase,
-            })(ids);
+            const { data: uploads, error: selectError } = await supabase
+              .from("uploads")
+              .select("url: metadata->url")
+              .in("id", ids);
 
-            if (error) {
-              return data({ success: false, error: error.message, ids: [] });
+            if (selectError) {
+              return data({
+                success: false,
+                error: selectError.message,
+                ids: [],
+              });
+            }
+
+            for (const upload of uploads) {
+              if (upload.url) {
+                await del(upload.url as string);
+              }
+            }
+
+            const { ids: deletedIds, error: deleteError } = await deleteUploads(
+              {
+                profileId: profile.id,
+                namespace,
+                supabase,
+              },
+            )(ids);
+
+            if (deleteError) {
+              return data({
+                success: false,
+                error: deleteError.message,
+                ids: [],
+              });
             }
 
             await vectorStore.deleteDocumentsFromVectorStore({

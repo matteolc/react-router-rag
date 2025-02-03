@@ -78,7 +78,7 @@ export const createUploads = ({
   namespace: string;
   supabase: SupabaseClient;
 }) => {
-  return async (files: File[], metadata: Record<string, string>[]) => {
+  return async (files: File[], metadata: Record<string, string | null>[]) => {
     if (!profileId) throw new Error("No profile ID provided");
 
     const { data, error } = await supabase

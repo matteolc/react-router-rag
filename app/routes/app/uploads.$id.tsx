@@ -9,13 +9,10 @@ import {
   Table,
   TableBody,
   TableCell,
-  TableHead,
-  TableHeader,
   TableRow,
 } from "~/components/ui/table";
 import { humanReadableFileSize, humanReadableMIMEType } from "~/lib/file";
 import { supabaseAuth } from "~/lib/supabase-auth";
-import type { Tables } from "~/db.types";
 import { Button } from "~/components/ui/button";
 import {
   Accordion,
@@ -23,7 +20,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "~/components/ui/accordion";
-import { Timestamp } from "~/components/Timestamp";
+import { Timestamp } from "~/components/timestamp";
 
 type PdfMetadata = {
   info?: {

@@ -119,7 +119,6 @@ export default function Screen() {
     <>
       <HeadingWrapper>
         <Heading>Uploads</Heading>
-
         <div className="flex items-center space-x-2">
           <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <DialogTrigger asChild>
