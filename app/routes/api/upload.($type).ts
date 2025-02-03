@@ -7,7 +7,6 @@ import { handleUpload, type HandleUploadBody } from "@vercel/blob/client";
 import { del } from "@vercel/blob";
 import { data } from "react-router";
 import { pdfToVectorStore } from "~/services/pdf-to-vector-store";
-import { z } from "zod";
 import {
   createUploads,
   deleteAllUploads,
@@ -66,7 +65,7 @@ export const action = async ({ request, params }: Route.ActionArgs) => {
                   ? JSON.parse(tokenPayload)
                   : {};
                 const uploadNamespace = parsedPayload.namespace || namespace;
-                const userId = parsedPayload.userId;
+                const profileId = parsedPayload.profileId;
 
                 const { downloadUrl } = blob;
                 const response = await fetch(downloadUrl);
@@ -77,28 +76,25 @@ export const action = async ({ request, params }: Route.ActionArgs) => {
                   type: "application/pdf",
                 });
 
-                const schema = z.object({
-                  name: z.string(),
-                  description: z.string(),
-                  url: z.string(),
-                });
-                await pdfToVectorStore({
-                  files: [file],
-                  namespace: uploadNamespace,
-                  profileId: userId,
-                  schema,
-                  vectorStore,
-                });
-                const { error } = await createUploads({
-                  profileId: userId,
+                const { ids, error } = await createUploads({
+                  profileId,
                   namespace: uploadNamespace,
                   supabase,
                 })([file], [{ url: downloadUrl }]);
 
                 if (error) {
-                  console.error(error);
+                  return;
                 }
 
+                await pdfToVectorStore({
+                  files: [file],
+                  metadata: {
+                    namespace: uploadNamespace,
+                    profile_id: profileId,
+                    upload_id: ids[0],
+                  },
+                  vectorStore,
+                });
                 // Make this configurable
                 await del(blob.url);
               } catch (error) {
@@ -120,44 +116,10 @@ export const action = async ({ request, params }: Route.ActionArgs) => {
       const namespace = formData.get("namespace") as string;
 
       switch (intent) {
-        case "DELETE_ALL": {
-          const { names } = await selectAllUploadNames({
-            profileId: profile.id,
-            namespace,
-            supabase,
-          })();
-
-          if (names?.length) {
-            await vectorStore.deleteDocumentsFromVectorStore({
-              sources: names,
-              profileId: profile.id,
-              namespace,
-            });
-          }
-
-          const { ids: deletedIds, error } = await deleteAllUploads({
-            profileId: profile.id,
-            namespace,
-            supabase,
-          })();
-
-          if (error) {
-            return data({ success: false, error: error.message, ids: [] });
-          }
-
-          return data({ success: true, ids: deletedIds, error: null });
-        }
         default: {
           const ids = formData.getAll("ids") as string[];
-          const names = formData.getAll("names") as string[];
 
           try {
-            await vectorStore.deleteDocumentsFromVectorStore({
-              sources: names,
-              profileId: profile.id,
-              namespace,
-            });
-
             const { ids: deletedIds, error } = await deleteUploads({
               profileId: profile.id,
               namespace,
@@ -167,6 +129,12 @@ export const action = async ({ request, params }: Route.ActionArgs) => {
             if (error) {
               return data({ success: false, error: error.message, ids: [] });
             }
+
+            await vectorStore.deleteDocumentsFromVectorStore({
+              uploadIds: ids,
+              profileId: profile.id,
+              namespace,
+            });
 
             return data({ success: true, ids: deletedIds, error: null });
           } catch (error) {

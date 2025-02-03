@@ -4,16 +4,13 @@ import type { VectorStore } from "./vector-store";
 
 export const pdfToVectorStore = async (params: {
   files: File[];
-  namespace: string;
-  profileId: string;
-  schema: ZodObject<ZodRawShape>;
+  metadata: Record<string, string>;
   vectorStore: VectorStore;
 }) => {
-  const { files, namespace, profileId, schema, vectorStore } = params;
+  const { files, vectorStore, metadata } = params;
   const documents = await PDFProcessor.convertToStructuredDocuments({
     files,
-    metadata: { namespace, profile_id: profileId },
-    schema,
+    metadata,
   });
   await vectorStore.addDocumentsToVectorStore({
     documents,

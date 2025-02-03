@@ -50,11 +50,11 @@ export class VectorStore {
   }
 
   async deleteDocumentsFromVectorStore({
-    sources,
+    uploadIds,
     profileId,
     namespace,
   }: {
-    sources: string[];
+    uploadIds: string[];
     profileId: string;
     namespace: string;
   }): Promise<
@@ -69,7 +69,7 @@ export class VectorStore {
       .delete()
       .eq("metadata->>profile_id", profileId)
       .eq("metadata->>namespace", namespace)
-      .in("metadata->>source", sources)
+      .in("metadata->>upload_id", uploadIds)
       .select("id");
   }
 
