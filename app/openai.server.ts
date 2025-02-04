@@ -1,3 +1,4 @@
+import type { LLMResult } from "@langchain/core/outputs";
 import { ChatOpenAI } from "@langchain/openai";
 import { env } from "~/env.server";
 
@@ -9,14 +10,19 @@ export class ChatOpenAIClient {
   constructor({
     temperature,
     model,
+    callbacks,
   }: {
     temperature?: number;
     model?: ChatOpenAIModel;
+    callbacks?: {
+      handleLLMEnd: (output: LLMResult) => void;
+    }[];
   }) {
     this.llm = new ChatOpenAI({
       temperature: temperature ?? 0,
       model: model ?? "gpt-4o-mini",
-      apiKey: env.OPENAI_API_KEY,
+      apiKey: env.OPENAI_API_KEY, 
+      callbacks,
     });
   }
 }

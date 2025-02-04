@@ -1,6 +1,5 @@
 import type { Document, DocumentInterface } from "@langchain/core/documents";
 import { SupabaseVectorStore } from "@langchain/community/vectorstores/supabase";
-import type { ChatOpenAI } from "@langchain/openai";
 import { OpenAIEmbeddings } from "@langchain/openai";
 import {
   ChatPromptTemplate,
@@ -16,6 +15,8 @@ import { createSupabaseServerClient } from "~/supabase.server";
 import type { Database } from "~/db.types";
 import { ChatOpenAIClient } from "~/openai.server";
 import condensePrompt from "~/prompts/condense-prompt";
+import type { LLMResult } from "@langchain/core/outputs";
+import { saveTokenUsage } from "./account-usage";
 
 const EMBEDDING_MODEL = "text-embedding-3-small";
 
@@ -23,13 +24,10 @@ export class VectorStore {
   private readonly vectorStore: SupabaseVectorStore;
   private readonly embeddings: OpenAIEmbeddings;
   private readonly supabase: ReturnType<typeof createServerClient<Database>>;
-  private readonly llm: ChatOpenAI;
 
   constructor({ request }: { request: Request }) {
     const { supabase } = createSupabaseServerClient(request);
-    const { llm } = new ChatOpenAIClient({});
     this.supabase = supabase;
-    this.llm = llm;
     this.embeddings = new OpenAIEmbeddings({
       model: EMBEDDING_MODEL,
       apiKey: process.env.OPENAI_API_KEY,
@@ -82,11 +80,25 @@ export class VectorStore {
     filter: Record<string, string>;
     k?: number;
   }): Promise<ReturnType<typeof createRetrievalChain>> {
+    const { llm } = new ChatOpenAIClient({
+      callbacks: [
+        {
+          handleLLMEnd: (output: LLMResult) => {
+            saveTokenUsage({
+              namespace: filter.namespace,
+              profile_id: filter.profile_id,
+              supabase: this.supabase,
+              service: "chat",
+            })(output);
+          },
+        },
+      ],
+    });
     const retriever = this.vectorStore.asRetriever(k, filter);
 
     // Contextualize question
     const historyAwareRetriever = await createHistoryAwareRetriever({
-      llm: this.llm,
+      llm,
       retriever,
       rephrasePrompt: ChatPromptTemplate.fromMessages([
         ["system", condensePrompt],
@@ -97,7 +109,7 @@ export class VectorStore {
 
     // Answer question
     const questionAnswerChain = await createStuffDocumentsChain({
-      llm: this.llm,
+      llm,
       prompt: ChatPromptTemplate.fromMessages([
         ["system", prompt],
         new MessagesPlaceholder("chat_history"),

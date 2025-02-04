@@ -13,8 +13,18 @@ import {
   SidebarTrigger,
 } from "~/components/ui/sidebar";
 import { AppSidebar } from "./app-sidebar";
+import { useWorkspaceName } from "~/hooks/use-workspace";
+import { NavLink, useLocation } from "react-router";
+import { Fragment } from "react";
+import { sentenceCase } from "~/lib/string";
 
 export const Sidebar = ({ children }: { children: React.ReactNode }) => {
+  const currentWorkspaceName = useWorkspaceName();
+  const location = useLocation();
+  const pathSegments = location.pathname
+    .split("/")
+    .filter((segment) => segment !== "");
+
   return (
     <SidebarProvider>
       <AppSidebar />
@@ -26,14 +36,45 @@ export const Sidebar = ({ children }: { children: React.ReactNode }) => {
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem className="hidden md:block">
-                  <BreadcrumbLink href="#">
-                    Building Your Application
-                  </BreadcrumbLink>
+                  <NavLink
+                    to="/"
+                    className="transition-colors hover:text-foreground"
+                  >
+                    {currentWorkspaceName}
+                  </NavLink>
                 </BreadcrumbItem>
-                <BreadcrumbSeparator className="hidden md:block" />
-                <BreadcrumbItem>
-                  <BreadcrumbPage>Data Fetching</BreadcrumbPage>
-                </BreadcrumbItem>
+                {pathSegments.length > 0 && (
+                  <>
+                    <BreadcrumbSeparator className="hidden md:block" />
+                    {pathSegments.map((segment, index) => {
+                      const href = `/${pathSegments.slice(0, index + 1).join("/")}`;
+                      const isLast = index === pathSegments.length - 1;
+                      return (
+                        <Fragment key={href}>
+                          <BreadcrumbItem className="hidden md:block">
+                            {isLast ? (
+                              <BreadcrumbPage>
+                                {sentenceCase(segment)}
+                              </BreadcrumbPage>
+                            ) : (
+                              <BreadcrumbLink asChild>
+                                <NavLink
+                                  to={href}
+                                  className="transition-colors hover:text-foreground"
+                                >
+                                  {sentenceCase(segment)}
+                                </NavLink>
+                              </BreadcrumbLink>
+                            )}
+                          </BreadcrumbItem>
+                          {!isLast && (
+                            <BreadcrumbSeparator className="hidden md:block" />
+                          )}
+                        </Fragment>
+                      );
+                    })}
+                  </>
+                )}
               </BreadcrumbList>
             </Breadcrumb>
           </div>

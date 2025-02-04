@@ -38,9 +38,9 @@ const ChatMessageServer = ({
       </Avatar>
 
       <div className="flex min-w-0 flex-1 flex-col space-y-4">
-        <div className="prose prose-p:text-muted-foreground w-full break-words">
+        <div className="prose *:text-primary prose-strong:text-primary w-full break-words">
           <ReactMarkdown>
-            {displayResponse.trimStart().replace(/\n\n/g, "\n")}
+            {displayResponse}
           </ReactMarkdown>
         </div>
 

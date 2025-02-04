@@ -6,8 +6,8 @@ import { VectorStore } from "~/services/vector-store";
 import { handleUpload, type HandleUploadBody } from "@vercel/blob/client";
 import { del } from "@vercel/blob";
 import { data } from "react-router";
-import { pdfToVectorStore } from "~/services/pdf-to-vector-store";
 import { createUploads, deleteUploads } from "~/services/uploads";
+import { PDFProcessor } from "~/services/pdf-processor";
 
 export const action = async ({ request, params }: Route.ActionArgs) => {
   const { type } = params;
@@ -72,27 +72,33 @@ export const action = async ({ request, params }: Route.ActionArgs) => {
                   type: "application/pdf",
                 });
 
+                const url = parsedPayload.keepInCloud ? downloadUrl : null
+
                 const { ids, error } = await createUploads({
                   profileId,
                   namespace: uploadNamespace,
                   supabase,
                 })(
                   [file],
-                  [{ url: parsedPayload.keepInCloud ? downloadUrl : null }],
+                  [{ url }],
                 );
 
                 if (error) {
                   return;
                 }
 
-                await pdfToVectorStore({
+                const documents = await PDFProcessor.convertToStructuredDocuments({
                   files: [file],
                   metadata: {
                     namespace: uploadNamespace,
                     profile_id: profileId,
                     upload_id: ids[0],
+                    url,
                   },
-                  vectorStore,
+                  supabase,
+                });
+                await vectorStore.addDocumentsToVectorStore({
+                  documents,
                 });
 
                 if (!parsedPayload.keepInCloud) {

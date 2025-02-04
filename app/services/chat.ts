@@ -1,7 +1,7 @@
 import { AIMessage, HumanMessage } from "@langchain/core/messages";
-import type { BaseMessage } from "@langchain/core/messages";
 import type { VectorStore } from "./vector-store";
 import chatPrompt from "~/prompts/chat-prompt";
+import type { Document } from "@langchain/core/documents";
 
 export const chat = async ({
   question,
@@ -12,24 +12,25 @@ export const chat = async ({
   question: string;
   history: [string, string][];
   vectorStore: VectorStore;
-  filter: Record<string, string>;
+  filter: {
+    profile_id: string;
+    namespace: string;
+  };
 }) => {
-  const sanitizedQuestion = question.trim().replaceAll("\n", " ");
-
   const chain = await vectorStore.createVectorStoreRetrivalChain({
     prompt: chatPrompt,
     filter,
   });
-  const pastMessages: BaseMessage[] = history.flatMap(
-    (message: [string, string]) => [
-      new HumanMessage(message[0]),
-      new AIMessage(message[1]),
-    ],
-  );
-  const { answer, context } = await chain.invoke({
-    chat_history: pastMessages,
-    input: sanitizedQuestion,
-  });
+  const { answer, context } = (await chain.invoke({
+    chat_history: history.flatMap(([human, ai]: [string, string]) => [
+      new HumanMessage(human),
+      new AIMessage(ai),
+    ]),
+    input: question.trim().replaceAll("\n", " ")
+  })) as {
+    answer: string;
+    context: Document[];
+  };
 
   return { answer, question, context };
 };

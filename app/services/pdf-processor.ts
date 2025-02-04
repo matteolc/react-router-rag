@@ -4,6 +4,7 @@ import { z, type ZodObject, type ZodRawShape } from "zod";
 
 import { Summariser } from "./summariser";
 import extractMetadataPrompt from "~/prompts/extract-metadata-prompt";
+import type { SupabaseClient } from "@supabase/supabase-js";
 
 const PDFProcessor = {
   convertFileToRawDocuments: async (file: File) => {
@@ -31,16 +32,18 @@ const PDFProcessor = {
   convertToStructuredDocuments: async ({
     files,
     metadata,
+    supabase,
   }: {
     files: File[];
-    metadata: Record<string, string>;
+    metadata: Record<string, string | null>;
+    supabase: SupabaseClient;
   }) => {
     const rawDocuments = await PDFProcessor.convertToRawDocuments(files);
     const structuredObjects = await Promise.all(
       rawDocuments.map(async (document) => {
-        return await Summariser.structure(
-          document.pageContent,
-          z.object({
+        return await Summariser.structure({
+          text: document.pageContent,
+          schema: z.object({
             document_type: z.string(),
             topics: z.array(z.string()),
             key_entities: z.array(z.string()),
@@ -52,8 +55,11 @@ const PDFProcessor = {
             content_structure: z.string(),
             language_style: z.string(),
           }),
-          extractMetadataPrompt,
-        );
+          prompt: extractMetadataPrompt,
+          profile_id: metadata.profile_id as string,
+          namespace: metadata.namespace as string,
+          supabase,
+        });
       }),
     );
     return structuredObjects.map((structuredObject, index) => {
@@ -75,16 +81,21 @@ const PDFProcessor = {
   convertToSummarisedDocuments: async ({
     files,
     metadata,
+    supabase,
   }: {
     files: File[];
     metadata: Record<string, string>;
+    supabase: SupabaseClient;
   }) => {
     const rawDocuments = await PDFProcessor.convertToRawDocuments(files);
     const summaries = await Promise.all(
       rawDocuments.map(async (document) => {
-        const { content: summary } = await Summariser.summarise(
-          document.pageContent,
-        );
+        const { content: summary } = await Summariser.summarise({
+          text: document.pageContent,
+          profile_id: metadata.profile_id as string,
+          namespace: metadata.namespace as string,
+          supabase,
+        });
         return summary;
       }),
     );

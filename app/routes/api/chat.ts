@@ -21,15 +21,24 @@ export const action = async ({ request }: Route.ActionArgs) => {
   });
 
   try {
-    const { answer, context } = await chat({
+    const {
+      answer,
+      context,
+    } = await chat({
       question,
       history,
       vectorStore,
       filter: { profile_id: profile.id, namespace: workspace },
     });
 
-    return data({ answer, question, context });
+    return data({
+      answer,
+      question,
+      context,
+      success: true,
+    });
   } catch (error) {
+    console.error(error);
     return data({
       error:
         error instanceof Error ? error.message : "An unknown error occurred",

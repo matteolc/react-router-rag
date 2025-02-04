@@ -14,7 +14,7 @@ export async function getTableParams(request: LoaderFunctionArgs["request"]) {
   const searchParams = url.searchParams;
 
   const page = Number(searchParams.get("page") || "1");
-  const perPage = Number(searchParams.get("perPage") || "2");
+  const perPage = Number(searchParams.get("perPage") || "12");
   const sortParam = searchParams.get("sort")?.split(".");
   const filters = safeJsonParse(searchParams.get("filter") || "[]");
 

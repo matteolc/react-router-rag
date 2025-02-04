@@ -51,6 +51,94 @@ export type Database = {
         }
         Relationships: []
       }
+      token_aggregation: {
+        Row: {
+          model: string
+          namespace: string
+          profile_id: string
+          service: Database["public"]["Enums"]["service_enum"]
+          time_bucket: string
+          total_completion_tokens: number
+          total_prompt_tokens: number
+          total_tokens: number | null
+        }
+        Insert: {
+          model: string
+          namespace: string
+          profile_id: string
+          service: Database["public"]["Enums"]["service_enum"]
+          time_bucket: string
+          total_completion_tokens: number
+          total_prompt_tokens: number
+          total_tokens?: number | null
+        }
+        Update: {
+          model?: string
+          namespace?: string
+          profile_id?: string
+          service?: Database["public"]["Enums"]["service_enum"]
+          time_bucket?: string
+          total_completion_tokens?: number
+          total_prompt_tokens?: number
+          total_tokens?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "token_aggregation_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      token_consumption: {
+        Row: {
+          chat_id: string | null
+          completion_tokens: number
+          created_at: string | null
+          id: string
+          message_id: string
+          model: string
+          namespace: string
+          profile_id: string
+          prompt_tokens: number
+          service: Database["public"]["Enums"]["service_enum"]
+        }
+        Insert: {
+          chat_id?: string | null
+          completion_tokens: number
+          created_at?: string | null
+          id?: string
+          message_id: string
+          model: string
+          namespace: string
+          profile_id: string
+          prompt_tokens: number
+          service: Database["public"]["Enums"]["service_enum"]
+        }
+        Update: {
+          chat_id?: string | null
+          completion_tokens?: number
+          created_at?: string | null
+          id?: string
+          message_id?: string
+          model?: string
+          namespace?: string
+          profile_id?: string
+          prompt_tokens?: number
+          service?: Database["public"]["Enums"]["service_enum"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "token_consumption_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       uploads: {
         Row: {
           created_at: string | null
@@ -115,7 +203,7 @@ export type Database = {
       }
     }
     Enums: {
-      [_ in never]: never
+      service_enum: "chat" | "summarization" | "extraction" | "other"
     }
     CompositeTypes: {
       [_ in never]: never
