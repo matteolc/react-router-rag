@@ -1,46 +1,42 @@
 import type { LucideIcon } from "lucide-react";
-import type * as React from "react";
-
+import { Link } from "react-router";
 import {
   SidebarGroup,
-  SidebarGroupContent,
+  SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarSeparator,
 } from "~/components/ui/sidebar";
-import { ThemeSwitcher } from "../theme-switcher";
-import { useTheme } from "~/hooks/use-theme";
+import { Badge } from "../ui/badge";
 
 export function NavSecondary({
   items,
-  ...props
 }: {
   items: {
-    title: string;
+    name: string;
     url: string;
     icon: LucideIcon;
   }[];
-} & React.ComponentPropsWithoutRef<typeof SidebarGroup>) {
-  const theme = useTheme();
+}) {
   return (
-    <SidebarGroup {...props}>
-      <SidebarGroupContent>
-        <SidebarMenu>
-          {items.map((item) => (
-            <SidebarMenuItem key={item.title}>
-              <SidebarMenuButton asChild size="sm">
-                <a href={item.url}>
-                  <item.icon />
-                  <span>{item.title}</span>
-                </a>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          ))}
-          <ThemeSwitcher userPreference={theme} />
-          <SidebarSeparator />
-        </SidebarMenu>
-      </SidebarGroupContent>
+    <SidebarGroup className="group-data-[collapsible=icon]:hidden">
+      <SidebarGroupLabel className="text-xs uppercase tracking-wider text-muted-foreground/80">
+        <Badge variant="outline" className="text-xs uppercase tracking-wider text-muted-foreground/80">
+          Knowledge Base
+        </Badge>
+      </SidebarGroupLabel>
+      <SidebarMenu>
+        {items.map((item) => (
+          <SidebarMenuItem key={item.name}>
+            <SidebarMenuButton asChild>
+              <Link to={item.url}>
+                <item.icon />
+                <span>{item.name}</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        ))}
+      </SidebarMenu>
     </SidebarGroup>
   );
 }

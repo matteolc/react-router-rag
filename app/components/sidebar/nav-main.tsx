@@ -16,6 +16,7 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from "~/components/ui/sidebar";
+import { Badge } from "../ui/badge";
 
 export function NavMain({
   items,
@@ -33,7 +34,11 @@ export function NavMain({
 }) {
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>Platform</SidebarGroupLabel>
+      <SidebarGroupLabel className="text-xs uppercase tracking-wider text-muted-foreground/80">
+        <Badge variant="outline" className="text-xs uppercase tracking-wider text-muted-foreground/80">
+          Tools
+        </Badge>
+      </SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item) => (
           <Collapsible

@@ -5,12 +5,7 @@ import { VectorStore } from "~/services/vector-store";
 import { Heading, HeadingWrapper } from "~/components/ui/heading";
 import { Badge } from "~/components/ui/badge";
 import { Card } from "~/components/ui/card";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableRow,
-} from "~/components/ui/table";
+import { Table, TableBody, TableCell, TableRow } from "~/components/ui/table";
 import { humanReadableFileSize, humanReadableMIMEType } from "~/lib/file";
 import { supabaseAuth } from "~/lib/supabase-auth";
 import { Button } from "~/components/ui/button";
@@ -21,6 +16,9 @@ import {
   AccordionTrigger,
 } from "~/components/ui/accordion";
 import { Timestamp } from "~/components/timestamp";
+import { useState } from "react";
+import { FileNotFoundDialog } from "~/components/uploads/file-not-found-dialog";
+import { handleDownload } from "~/lib/handle-download";
 
 type PdfMetadata = {
   info?: {
@@ -59,7 +57,6 @@ export async function loader({ params, request }: Route.LoaderArgs) {
   const { id } = params;
   const { supabase } = supabaseAuth({ request });
 
-  // Get upload record
   const { data: upload, error } = await supabase
     .from("uploads")
     .select("*")
@@ -69,7 +66,6 @@ export async function loader({ params, request }: Route.LoaderArgs) {
   if (error) throw new Error("Upload not found");
   if (!upload) throw new Error("Upload not found");
 
-  // Get document metadata from vector store
   const vectorStore = new VectorStore({ request });
   const documents = await vectorStore.queryVectorStore({
     query: "",
@@ -79,22 +75,36 @@ export async function loader({ params, request }: Route.LoaderArgs) {
 
   return data({
     upload,
-    document: documents[0]?.metadata as DocumentMetadata,
+    documentMeta: documents[0]?.metadata as DocumentMetadata,
     pdfInfo: documents[0]?.metadata.pdf as PdfMetadata,
     content: documents[0]?.pageContent,
   });
 }
 
 export default function Screen() {
-  const { upload, document, pdfInfo, content } = useLoaderData<typeof loader>();
-
+  const { upload, documentMeta, pdfInfo, content } =
+    useLoaderData<typeof loader>();
+  const [errorOpen, setErrorOpen] = useState(false);
   return (
     <div className="space-y-6">
       <HeadingWrapper>
         <Heading>Upload Details</Heading>
-        <Button>
-          <Link to="/uploads">Back</Link>
-        </Button>
+        <div className="flex gap-2">
+          <Button asChild variant="outline">
+            <Link to="/uploads">Back</Link>
+          </Button>
+          <Button
+            onClick={() =>
+              handleDownload({
+                url: (upload.metadata as { url: string }).url,
+                name: upload.name,
+                onError: (error) => setErrorOpen(true),
+              })
+            }
+          >
+            Download
+          </Button>
+        </div>
       </HeadingWrapper>
 
       {/* Basic File Info */}
@@ -121,22 +131,22 @@ export default function Screen() {
       </Card>
 
       {/* Document Metadata */}
-      {document && (
+      {documentMeta && (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <Card className="p-6">
             <h3 className="text-lg font-semibold mb-4">Content Analysis</h3>
             <div className="space-y-2">
               <div className="flex justify-between">
                 <span>Document Type</span>
-                <Badge variant="outline">{document.document_type}</Badge>
+                <Badge variant="outline">{documentMeta.document_type}</Badge>
               </div>
               <div className="flex justify-between">
                 <span>Domain</span>
-                <Badge variant="outline">{document.domain}</Badge>
+                <Badge variant="outline">{documentMeta.domain}</Badge>
               </div>
               <div className="flex justify-between">
                 <span>Technical Level</span>
-                <Badge variant="outline">{document.technical_level}</Badge>
+                <Badge variant="outline">{documentMeta.technical_level}</Badge>
               </div>
             </div>
           </Card>
@@ -147,7 +157,7 @@ export default function Screen() {
               <div>
                 <p className="text-sm text-muted-foreground mb-2">Topics</p>
                 <div className="flex flex-wrap gap-2 mt-1">
-                  {document.topics?.map((topic) => (
+                  {documentMeta.topics?.map((topic) => (
                     <Badge key={topic} variant="secondary">
                       {topic}
                     </Badge>
@@ -155,11 +165,13 @@ export default function Screen() {
                 </div>
               </div>
               <div>
-                <p className="text-sm text-muted-foreground mb-2">Key Entities</p>
+                <p className="text-sm text-muted-foreground mb-2">
+                  Key Entities
+                </p>
                 <div className="flex flex-wrap gap-2 mt-1">
-                  {document.key_entities?.map((entity) => (
-                    <Badge 
-                      key={entity} 
+                  {documentMeta.key_entities?.map((entity) => (
+                    <Badge
+                      key={entity}
                       variant="secondary"
                       className="text-xs font-medium hover:shadow-sm transition-shadow"
                     >
@@ -218,12 +230,13 @@ export default function Screen() {
         </div>
       )}
 
-      {!document && (
+      {!documentMeta && (
         <Card className="p-6 text-center text-muted-foreground">
           No additional document metadata found
         </Card>
       )}
 
+      {/* Document Summary */}
       {content && (
         <div className="space-y-6">
           <Accordion type="single" collapsible>
@@ -238,6 +251,8 @@ export default function Screen() {
           </Accordion>
         </div>
       )}
+
+      <FileNotFoundDialog open={errorOpen} onOpenChange={setErrorOpen} />
     </div>
   );
 }

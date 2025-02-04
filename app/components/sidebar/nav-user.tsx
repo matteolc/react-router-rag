@@ -25,15 +25,7 @@ import {
 } from "~/components/ui/sidebar";
 import type { loader } from "~/routes/app/layout";
 
-export function NavUser({
-  user,
-}: {
-  user: {
-    name: string;
-    email: string;
-    avatar: string;
-  };
-}) {
+export function NavUser() {
   const fetcher = useFetcher({ key: "logout" });
   const { profile } = useLoaderData<typeof loader>();
   const avatar = "/avatars/04.png";
