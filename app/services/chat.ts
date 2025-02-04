@@ -1,8 +1,8 @@
 import { AIMessage, HumanMessage } from "@langchain/core/messages";
-
 import type { BaseMessage } from "@langchain/core/messages";
 import type { VectorStore } from "./vector-store";
 import chatPrompt from "~/prompts/chat-prompt";
+
 export const chat = async ({
   question,
   history,
@@ -26,15 +26,10 @@ export const chat = async ({
       new AIMessage(message[1]),
     ],
   );
-  const documents = await vectorStore.queryVectorStore({
-    query: sanitizedQuestion,
-    filter,
-    k: 10,
-  });
-  const { answer } = await chain.invoke({
+  const { answer, context } = await chain.invoke({
     chat_history: pastMessages,
     input: sanitizedQuestion,
   });
 
-  return { answer, question, context: documents };
+  return { answer, question, context };
 };

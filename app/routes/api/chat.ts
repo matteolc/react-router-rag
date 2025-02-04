@@ -16,10 +16,6 @@ export const action = async ({ request }: Route.ActionArgs) => {
   const historyStr = formData.get("history") as string;
   const history = historyStr ? JSON.parse(historyStr) : [];
 
-  if (!question) {
-    return new Response("Please input a question", { status: 400 });
-  }
-
   const vectorStore = new VectorStore({
     request,
   });

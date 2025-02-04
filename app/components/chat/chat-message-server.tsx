@@ -6,12 +6,12 @@ import { Button } from "~/components/ui/button";
 import { Copy, Bot, Link2 } from "lucide-react";
 import { Badge } from "../ui/badge";
 
-const ServerMessage = ({
+const ChatMessageServer = ({
   message,
-  sourceDocs,
+  context,
 }: {
   message: string | null;
-  sourceDocs?: Document[];
+  context?: Document[];
 }) => {
   const [displayResponse, setDisplayResponse] = useState("");
   const bottomOfChatRef = useRef<HTMLDivElement>(null);
@@ -44,13 +44,13 @@ const ServerMessage = ({
           </ReactMarkdown>
         </div>
 
-        {sourceDocs && (
+        {context && (
           <div className="mt-4 space-y-2">
             <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
-              Sources
+              Context
             </div>
             <div className="grid gap-3">
-              {sourceDocs.map((doc) => {
+              {context.map((doc) => {
                 const fullPath = doc.metadata.source;
                 const fileName = fullPath.split("/").pop() || "Document";
                 const [name, extension] = fileName.split(/\.(?=[^.]+$)/);
@@ -102,4 +102,4 @@ const ServerMessage = ({
   );
 };
 
-export { ServerMessage };
+export { ChatMessageServer };

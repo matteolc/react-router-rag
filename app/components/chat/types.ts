@@ -1,13 +1,15 @@
-import type { Document } from '@langchain/core/documents';
+import type { Document } from "@langchain/core/documents";
 
-export enum MessageRole {
-  user = 'userMessage',
-  system = 'apiMessage',
-}
+export const MessageRole = {
+  user: "userMessage",
+  system: "apiMessage",
+} as const;
+
+export type MessageRole = (typeof MessageRole)[keyof typeof MessageRole];
 
 export type Message = {
   type: MessageRole;
   message: string;
   isStreaming?: boolean;
-  sourceDocs?: Document[];
+  context?: Document[];
 };

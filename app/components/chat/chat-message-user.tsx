@@ -1,7 +1,7 @@
 import { Avatar, AvatarImage, AvatarFallback } from "~/components/ui/avatar";
 import { User } from "lucide-react";
 
-const UserMessage = ({ message }: { message: string }) => {
+const ChatMessageUser = ({ message }: { message: string }) => {
   return (
     <div
       className="w-full rounded-xl bg-muted/50 text-muted-foreground"
@@ -40,4 +40,4 @@ const UserMessage = ({ message }: { message: string }) => {
   );
 };
 
-export { UserMessage };
+export { ChatMessageUser };
