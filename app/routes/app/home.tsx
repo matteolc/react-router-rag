@@ -1,6 +1,6 @@
 import { Heading, HeadingWrapper } from "~/components/ui/heading";
 import { Button } from "~/components/ui/button";
-import { BarChart, FolderPlus, MessageSquareText, Sparkles, FileText } from 'lucide-react';
+import { MessageSquareText, Sparkles, FileText } from 'lucide-react';
 import { getWorkspace } from "~/hooks/use-workspace";
 import { supabaseAuth } from "~/lib/supabase-auth";
 import type { Route } from "./+types/home";
@@ -23,7 +23,7 @@ export async function loader({ request }: Route.LoaderArgs) {
     .order("time_bucket", { ascending: false })
     .limit(30);
 
-  const { data: recentFiles } = await supabase
+  const { data: recentFiles } = await supabase
     .from("uploads")
     .select("*")
     .eq("profile_id", profile.id)
@@ -122,7 +122,7 @@ export default function Screen() {
         <div className="flex items-center justify-between mb-4">
           <h3 className="font-semibold">Recent Files</h3>
           <Button variant="ghost" size="sm" className="text-primary" asChild>
-            <Link to="/uploads">
+            <Link to="/uploads" prefetch="intent">
               View all
             </Link>
           </Button>
@@ -131,7 +131,7 @@ export default function Screen() {
           {recentFiles.map((file) => (
             <div key={file.name} className="flex items-center justify-between p-3 hover:bg-muted/50 rounded-lg transition-colors">
               <div className="flex items-center gap-3">
-                <Link to={`/uploads/${file.id}`} className="font-medium">{file.name}</Link>
+                <Link to={`/uploads/${file.id}`} className="font-medium" prefetch="intent">{file.name}</Link>
                 <Badge variant="outline" className="text-sm text-muted-foreground">{humanReadableMIMEType(file.type)}</Badge>
               </div>
               <span className="text-sm text-muted-foreground"><Timestamp timestamp={file.created_at} /></span>
