@@ -45,13 +45,13 @@ Browse the application from the public URL provided by ngrok.
 git clone https://github.com/your-username/react-router-rag.git
 ```
 
-2. Install dependencies
+2. Bootstrap the project
 
 ```bash
 npm run bootstrap
 ```
 
-3. Set up environment variables, create a `.env` file in the root directory:
+3. Set up environment variables, create a `.env` file in the root directory. Copy the Supabase project URL and service role key from the output of the bootstrap command and Vercel Blob Storage key from Vercel deployment environment variables.
 
 ```bash
 cp .env.example .env
