@@ -16,9 +16,26 @@ A Retrieval Augmented Generation (RAG) application built with React Router and m
 ## Getting Started
 
 ### Prerequisites
+
 - Node.js v20+
-- Supabase account
+- A Supabase account is not needed for local development but it's required for deployment
+- A Vercel account and a Vercel Blob Storage key
 - OpenAI API key
+
+In order to use the file upload feature, you need to have a Vercel Blob Storage key. To get one, you can follow the steps below:
+
+1. Deploy this project to Vercel
+2. Go to the Storage section
+3. Associate a Blob Store to the project
+4. Copy the `BLOB_READ_WRITE_TOKEN` key
+
+Finally, you will need to run a local tunnel to make the file upload feature work. You can use [ngrok](https://ngrok.com/) for this purpose.
+
+```bash
+ngrok http 3000
+```
+
+Browse the application from the public URL provided by ngrok.
 
 ### Installation
 
