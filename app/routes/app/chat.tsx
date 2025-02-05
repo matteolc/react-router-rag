@@ -302,7 +302,7 @@ export default function Screen() {
 
         <div className="sticky bottom-0">
           <div className="flex w-full flex-col items-center rounded-xl border border-border">
-            <div className="flex w-full flex-col gap-2 rounded-t-xl bg-background p-2 pt-3 border-b border-border">
+            <div className="flex w-full flex-col gap-2 rounded-t-xl bg-background p-2 pt-3">
               <div className="ml-6 relative h-full w-full">
                 <div className="flex min-h-[30px] w-full flex-1 cursor-text resize-none overflow-y-auto border-none text-left placeholder-primary shadow-none focus:outline-none focus:ring-0 focus:ring-transparent">
                   <Contenteditable

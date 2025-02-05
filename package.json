@@ -1,8 +1,10 @@
 {
-  "name": "react-router-rag",
-  "private": true,
+  "name": "@matteolc/react-router-rag",
+  "private": false,
+  "author": "Matteo La Cognata",
   "type": "module",
   "scripts": {
+    "bootstrap": "npm install && npm run db:start && npm run db:migrate && npm run db:generate:types",
     "build": "react-router build && node vercel/prepare.js",
     "deploy": "vercel",
     "dev": "cross-env NODE_ENV=development node ./dev-server.js",
@@ -86,5 +88,8 @@
     "typescript": "^5.7.2",
     "vite": "^5.4.11",
     "vite-tsconfig-paths": "^5.1.4"
+  },
+  "engines": {
+    "node": ">=20"
   }
 }

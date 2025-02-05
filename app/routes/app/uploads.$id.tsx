@@ -243,7 +243,7 @@ export default function Screen() {
             <AccordionItem value="summary">
               <AccordionTrigger>Document Summary</AccordionTrigger>
               <AccordionContent>
-                <div className="prose whitespace-pre-wrap font-sans">
+                <div className="prose text-xs font-sans" style={{ '--tw-prose-body': '--primary-foreground' } as React.CSSProperties}>
                   {content}
                 </div>
               </AccordionContent>

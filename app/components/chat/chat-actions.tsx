@@ -27,16 +27,16 @@ const ChatActions = ({
           disabled={!enabled}
           onClick={onClick}
           className={clsx(
-            "group rounded-full bg-primary p-1.5",
+            "group rounded-full p-1.5",
             enabled ? "hover:bg-primary" : "opacity-60",
           )}
         >
           <SendIcon
             className={clsx(
-              "h-5 w-5 -ml-0.5",
+              "h-5 w-5 -ml-0.5 fill-primary",
               enabled
-                ? "text-primary-foreground"
-                : "text-primary-foreground opacity-60",
+                ? "text-primary"
+                : "text-primary opacity-60",
             )}
           />
         </button>

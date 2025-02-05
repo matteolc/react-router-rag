@@ -88,7 +88,7 @@ export const DragAndDropZone = ({
               isUploading
                 ? ""
                 : "cursor-pointer hover:bg-accent hover:bg-opacity-10",
-              "flex h-64 w-full flex-col items-center justify-center rounded-lg border-2 border-dashed border-border bg-accent bg-opacity-60",
+              "flex h-64 w-full flex-col items-center justify-center rounded-lg border-1 border-dashed border-primary/40 bg-accent bg-opacity-60",
             )}
           >
             <div className="flex flex-col items-center justify-center pb-6 pt-5 text-accent-foreground">
