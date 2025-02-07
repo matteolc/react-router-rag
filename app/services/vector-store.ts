@@ -10,7 +10,7 @@ import { createHistoryAwareRetriever } from "langchain/chains/history_aware_retr
 import { createRetrievalChain } from "langchain/chains/retrieval";
 import type { PostgrestSingleResponse } from "@supabase/supabase-js";
 import type { createServerClient } from "@supabase/ssr";
-
+import { env } from "~/env.server";
 import { createSupabaseServerClient } from "~/supabase.server";
 import type { Database } from "~/db.types";
 import { ChatOpenAIClient } from "~/openai.server";
@@ -30,7 +30,7 @@ export class VectorStore {
     this.supabase = supabase;
     this.embeddings = new OpenAIEmbeddings({
       model: EMBEDDING_MODEL,
-      apiKey: process.env.OPENAI_API_KEY,
+      apiKey: env.OPENAI_API_KEY,
     });
     this.vectorStore = new SupabaseVectorStore(this.embeddings, {
       client: supabase,

@@ -8,6 +8,7 @@ import { ChatOpenAIClient } from "~/openai.server";
 import summarisePrompt from "~/prompts/summarise-prompt";
 import { saveTokenUsage } from "./account-usage";
 import type { SupabaseClient } from "@supabase/supabase-js";
+import type { Database } from "~/db.types";
 
 const Summariser = {
   summarise: async ({
@@ -19,7 +20,7 @@ const Summariser = {
     text: string;
     profile_id: string;
     namespace: string;
-    supabase: SupabaseClient;
+    supabase: SupabaseClient<Database>;
   }) => {
     const { llm } = new ChatOpenAIClient({
       callbacks: [
@@ -40,13 +41,19 @@ const Summariser = {
       .invoke({ text });
   },
 
-  structureChain: (
-    schema: ZodObject<ZodRawShape>,
-    prompt: string,
-    profile_id: string,
-    namespace: string,
-    supabase: SupabaseClient,
-  ) => {
+  structureChain: ({
+    schema,
+    prompt,
+    profile_id,
+    namespace,
+    supabase,
+  }: {
+    schema: ZodObject<ZodRawShape>;
+    prompt: string;
+    profile_id: string;
+    namespace: string;
+    supabase: SupabaseClient<Database>;
+  }) => {
     const parser = StructuredOutputParser.fromZodSchema(schema);
     const { llm } = new ChatOpenAIClient({
       callbacks: [
@@ -84,15 +91,15 @@ const Summariser = {
     prompt: string;
     profile_id: string;
     namespace: string;
-    supabase: SupabaseClient;
+    supabase: SupabaseClient<Database>;
   }) => {
-    const { chain, formatInstructions } = Summariser.structureChain(
+    const { chain, formatInstructions } = Summariser.structureChain({
       schema,
       prompt,
       profile_id,
       namespace,
       supabase,
-    );
+    });
     return await chain.invoke({
       text,
       format_instructions: formatInstructions,

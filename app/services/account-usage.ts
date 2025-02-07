@@ -1,5 +1,6 @@
 import type { LLMResult } from "@langchain/core/outputs";
 import type { SupabaseClient } from "@supabase/supabase-js";
+import type { Database } from "~/db.types";
 
 export const getTokenUsage = ({ output }: { output: LLMResult }) => {
   const { message } = output.generations[0][0];
@@ -24,7 +25,7 @@ export const saveTokenUsage = ({
 }: {
   namespace: string;
   profile_id: string;
-  supabase: SupabaseClient;
+  supabase: SupabaseClient<Database>;
   service: "chat" | "summarization" | "extraction" | "other";
 }) => {
   return async (output: LLMResult) => {
@@ -35,10 +36,10 @@ export const saveTokenUsage = ({
         });
 
       await supabase.from("token_consumption").insert({
-        prompt_tokens: promptTokens,
-        completion_tokens: completionTokens,
+        prompt_tokens: promptTokens as number,
+        completion_tokens: completionTokens as number,
         model,
-        message_id: messageId,
+        message_id: messageId as string,
         namespace,
         profile_id,
         service,
