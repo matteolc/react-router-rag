@@ -91,7 +91,7 @@ The project uses the following environment variables:
 | Variable           | Description                     |
 |--------------------|---------------------------------|
 | `SUPABASE_URL`     | Supabase project URL            |
-| `SUPABASE_KEY`     | Supabase service role key       |
+| `SUPABASE_SERVICE_ROLE_KEY`     | Supabase service role key       |
 | `OPENAI_API_KEY`   | OpenAI API key                  |
 | `BLOB_READ_WRITE_TOKEN` | Vercel Blob storage token |
 
@@ -116,7 +116,7 @@ The application provides three core AI capabilities:
 
 ## Deployment
 
-[![Deploy to Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fyour-username%2Freact-router-rag&env=SUPABASE_URL,SUPABASE_KEY,OPENAI_API_KEY,BLOB_READ_WRITE_TOKEN&envDescription=AI%20service%20credentials)
+[![Deploy to Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fyour-username%2Freact-router-rag&env=SUPABASE_URL,SUPABASE_SERVICE_ROLE_KEY,OPENAI_API_KEY,BLOB_READ_WRITE_TOKEN&envDescription=AI%20service%20credentials)
 
 ## Contributing
 
