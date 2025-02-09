@@ -12,4 +12,5 @@
 .biome/
 
 .env
+.env.prod
 .vercel
