@@ -15,7 +15,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "~/components/ui/accordion";
-import { Timestamp } from "~/components/timestamp";
+import { Timestamp } from "~/components/Timestamp";
 import { useState } from "react";
 import { FileNotFoundDialog } from "~/components/uploads/file-not-found-dialog";
 import { handleDownload } from "~/lib/handle-download";

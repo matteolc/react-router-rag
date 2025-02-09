@@ -1,4 +1,4 @@
-import { DonutIcon } from "lucide-react";
+import { DonutIcon, Palette } from "lucide-react";
 import { Sparkles } from "lucide-react";
 
 export const sidebar = {
@@ -10,7 +10,13 @@ export const sidebar = {
       isActive: true,
     },
   ],
-  footer: [],
+  footer: [
+    {
+      title: "Palette",
+      url: "/palette",
+      icon: Palette,
+    },
+  ],
   secondary: [
     {
       name: "Documents",

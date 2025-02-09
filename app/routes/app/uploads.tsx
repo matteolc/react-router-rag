@@ -122,7 +122,7 @@ export default function Screen() {
         <div className="flex items-center space-x-2">
           <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <DialogTrigger asChild>
-              <Button>
+              <Button size="sm">
                 <PlusIcon className="h-4 w-4" />
                 Upload Files
               </Button>

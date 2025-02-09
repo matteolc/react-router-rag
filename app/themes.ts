@@ -1,28 +1,26 @@
-import colors from "tailwindcss/colors";
+import {
+	ThemeVariantEnum,
+	type MuiThemePreset,
+	type StaticThemePreset,
+} from "@palettebro/theme-generator";
 
 export const themes = {
-  light: {
-    "color-scheme": "light" as const,
-    variant: "static" as const,
-    debug: false,
-    preset: "tetrad" as const,
-    reverse: true,
-    baseColors: {
-      primary: colors.purple[500],
-      secondary: colors.blue[500],
-      accent: colors.green[500],
-    },
-  },
-  dark: {
-    "color-scheme": "dark" as const,
-    variant: "static" as const,
-    debug: false,
-    preset: "tetrad" as const,
-    reverse: true,
-    baseColors: {
-      primary: colors.purple[500],
-      secondary: colors.blue[500],
-      accent: colors.green[500],
-    },
-  },
+	light: {
+		"color-scheme": "light" as const,
+		variant: ThemeVariantEnum.static,
+		debug: true,
+		preset: "neo-brutalist" as StaticThemePreset,
+		baseColors: {
+			primary: "#9fc131",
+		},
+	},
+	dark: {
+		"color-scheme": "dark" as const,
+		variant: ThemeVariantEnum.static,
+		debug: true,
+		preset: "neo-brutalist" as StaticThemePreset,
+		baseColors: {
+			primary: "#9fc131",
+		},
+	},
 };

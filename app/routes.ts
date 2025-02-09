@@ -12,6 +12,7 @@ export default [
     route("uploads", "./routes/app/uploads.tsx"),
     route("uploads/:id", "./routes/app/uploads.$id.tsx"),
     route("chat", "./routes/app/chat.tsx"),
+    route("palette", "./routes/app/palette.tsx"),
   ]),
   layout("./routes/public/layout.tsx", [
     route("login", "./routes/public/login.tsx"),
