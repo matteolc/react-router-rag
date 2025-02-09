@@ -21,10 +21,7 @@ export const action = async ({ request }: Route.ActionArgs) => {
   });
 
   try {
-    const {
-      answer,
-      context,
-    } = await chat({
+    const { answer, context } = await chat({
       question,
       history,
       vectorStore,

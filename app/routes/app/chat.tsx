@@ -197,7 +197,10 @@ export default function Screen() {
           filter: `profile_id=eq.${profile.id}`,
         },
         (payload) => {
-          if (payload.new.namespace === workspace && payload.new.service === "chat") {
+          if (
+            payload.new.namespace === workspace &&
+            payload.new.service === "chat"
+          ) {
             setUsage({
               promptTokens: payload.new.total_prompt_tokens,
               completionTokens: payload.new.total_completion_tokens,
@@ -215,7 +218,10 @@ export default function Screen() {
           filter: `profile_id=eq.${profile.id}`,
         },
         (payload) => {
-          if (payload.new.namespace === workspace && payload.new.service === "chat") {
+          if (
+            payload.new.namespace === workspace &&
+            payload.new.service === "chat"
+          ) {
             setUsage({
               promptTokens: payload.new.total_prompt_tokens,
               completionTokens: payload.new.total_completion_tokens,

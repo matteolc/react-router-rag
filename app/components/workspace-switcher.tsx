@@ -62,7 +62,9 @@ export function WorkspaceSwitcher() {
             className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg border-border"
             align="start"
           >
-            <DropdownMenuLabel className="text-xs text-muted-foreground">Workspaces</DropdownMenuLabel>
+            <DropdownMenuLabel className="text-xs text-muted-foreground">
+              Workspaces
+            </DropdownMenuLabel>
             <DropdownMenuSeparator />
             {workspaces.map((ws) => (
               <DropdownMenuItem key={ws.id} onSelect={() => setWorkspace(ws)}>
@@ -78,8 +80,10 @@ export function WorkspaceSwitcher() {
               <div className="flex size-6 items-center justify-center rounded-md border bg-background">
                 <Plus className="size-4" />
               </div>
-              <div className="font-medium text-muted-foreground">Add workspace</div>
-            </DropdownMenuItem>            
+              <div className="font-medium text-muted-foreground">
+                Add workspace
+              </div>
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarMenuItem>

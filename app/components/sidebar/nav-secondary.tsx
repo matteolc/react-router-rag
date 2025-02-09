@@ -21,7 +21,10 @@ export function NavSecondary({
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
       <SidebarGroupLabel className="text-xs uppercase tracking-wider text-muted-foreground/80">
-        <Badge variant="outline" className="text-xs uppercase tracking-wider text-muted-foreground/80">
+        <Badge
+          variant="outline"
+          className="text-xs uppercase tracking-wider text-muted-foreground/80"
+        >
           Knowledge Base
         </Badge>
       </SidebarGroupLabel>

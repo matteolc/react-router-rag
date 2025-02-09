@@ -1,4 +1,4 @@
-import type { Table } from '@tanstack/react-table'
+import type { Table } from "@tanstack/react-table";
 import {
   Table as TableComponent,
   TableBody,
@@ -6,39 +6,39 @@ import {
   TableHeader,
   TableRow,
   TableCell,
-} from '~/components/ui/table'
-import { DataTableRow } from './data-table-row'
-import { flexRender } from '@tanstack/react-table'
-import { Heading, Paragraph } from '../ui/heading'
-import { PackageOpen } from 'lucide-react'
+} from "~/components/ui/table";
+import { DataTableRow } from "./data-table-row";
+import { flexRender } from "@tanstack/react-table";
+import { Heading, Paragraph } from "../ui/heading";
+import { PackageOpen } from "lucide-react";
 
 export function BaseDataTable<TData>({ table }: { table: Table<TData> }) {
   return (
     <div className="rounded-md border border-border overflow-x-auto">
-      <TableComponent 
-        style={{ 
-          tableLayout: 'fixed',
-          minWidth: '100%',
-          width: 'fit-content'
+      <TableComponent
+        style={{
+          tableLayout: "fixed",
+          minWidth: "100%",
+          width: "fit-content",
         }}
       >
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id} className="border-border">
               {headerGroup.headers.map((header) => (
-                <TableHead 
+                <TableHead
                   key={header.id}
-                  style={{ 
+                  style={{
                     width: header.getSize(),
                     minWidth: header.column.columnDef.minSize,
-                    maxWidth: header.column.columnDef.maxSize
+                    maxWidth: header.column.columnDef.maxSize,
                   }}
                 >
                   {header.isPlaceholder
                     ? null
                     : flexRender(
                         header.column.columnDef.header,
-                        header.getContext()
+                        header.getContext(),
                       )}
                 </TableHead>
               ))}
@@ -47,13 +47,13 @@ export function BaseDataTable<TData>({ table }: { table: Table<TData> }) {
         </TableHeader>
         <TableBody>
           {table.getRowModel().rows?.length ? (
-            table.getRowModel().rows.map((row) => (
-              <DataTableRow key={row.id} row={row} />
-            ))
+            table
+              .getRowModel()
+              .rows.map((row) => <DataTableRow key={row.id} row={row} />)
           ) : (
             <TableRow>
-              <TableCell 
-                colSpan={table.getAllColumns().length} 
+              <TableCell
+                colSpan={table.getAllColumns().length}
                 className="h-48 text-center"
               >
                 <div className="flex flex-col items-center justify-center gap-3 py-8">
@@ -71,5 +71,5 @@ export function BaseDataTable<TData>({ table }: { table: Table<TData> }) {
         </TableBody>
       </TableComponent>
     </div>
-  )
-} 
+  );
+}

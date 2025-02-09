@@ -1,4 +1,4 @@
-import { useLocales } from 'remix-utils/locales/react';
+import { useLocales } from "remix-utils/locales/react";
 
 const Timestamp = ({
   timestamp,
@@ -13,8 +13,8 @@ const Timestamp = ({
   const date = new Date(timestamp);
   const dateTime = date.toISOString();
   const formattedDateTime = date.toLocaleString(locales, {
-    dateStyle: 'short',
-    timeStyle: showTime ? 'short' : undefined,
+    dateStyle: "short",
+    timeStyle: showTime ? "short" : undefined,
   });
   return <time dateTime={dateTime}>{formattedDateTime}</time>;
 };

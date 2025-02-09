@@ -65,12 +65,7 @@ function ThemeSwitcherForm() {
       className="flex gap-1"
     >
       {themes.map((theme) => (
-        <button
-          key={theme}
-          type="submit"
-          name="theme"
-          value={theme}
-        >
+        <button key={theme} type="submit" name="theme" value={theme}>
           {THEME_ICON[theme]}
           <span className="sr-only">
             {theme.charAt(0).toUpperCase() + theme.slice(1)}

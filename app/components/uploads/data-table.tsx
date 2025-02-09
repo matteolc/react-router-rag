@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from "react";
 import {
   useReactTable,
   type ColumnDef,
@@ -14,12 +14,12 @@ import {
   type RowSelectionState,
   type OnChangeFn,
   type TableMeta,
-} from '@tanstack/react-table'
+} from "@tanstack/react-table";
 
-import { DataTableToolbar } from './data-table-toolbar'
-import { DataTablePagination } from './data-table-pagination'
-import { BaseDataTable } from './base-data-table'
-import type { Tables } from '~/db.types'
+import { DataTableToolbar } from "./data-table-toolbar";
+import { DataTablePagination } from "./data-table-pagination";
+import { BaseDataTable } from "./base-data-table";
+import type { Tables } from "~/db.types";
 
 interface DataTableProps<TData> {
   columns: ColumnDef<TData>[];
@@ -36,17 +36,17 @@ export function UploadsTable({
   page,
   perPage,
 }: DataTableProps<Tables<"uploads">>) {
-  const [rowSelection, setRowSelection] = React.useState({})
+  const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({})
+    React.useState<VisibilityState>({});
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  )
-  const [sorting, setSorting] = React.useState<SortingState>([])
+    [],
+  );
+  const [sorting, setSorting] = React.useState<SortingState>([]);
   const [{ pageIndex, pageSize }, setPagination] = React.useState({
     pageIndex: page - 1,
     pageSize: perPage,
-  })
+  });
 
   const table = useReactTable({
     data,
@@ -71,7 +71,7 @@ export function UploadsTable({
     getFacetedUniqueValues: getFacetedUniqueValues(),
     manualPagination: true,
     pageCount: Math.ceil(totalRows / perPage),
-  })
+  });
 
   return (
     <div className="space-y-4">
@@ -84,5 +84,5 @@ export function UploadsTable({
         perPage={perPage}
       />
     </div>
-  )
-} 
+  );
+}

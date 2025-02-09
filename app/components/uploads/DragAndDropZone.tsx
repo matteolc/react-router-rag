@@ -96,8 +96,8 @@ export const DragAndDropZone = ({
                 <>
                   <CloudIcon />
                   <p className="text-md mb-2">
-                    <span className="font-semibold">Click to upload</span> or drag
-                    and drop
+                    <span className="font-semibold">Click to upload</span> or
+                    drag and drop
                   </p>
                   <p className="text-xs">Supports PDF files</p>
                 </>
@@ -106,8 +106,8 @@ export const DragAndDropZone = ({
                   <Progress value={totalProgress} className="h-2 w-full" />
                   <div className="text-center">
                     <p className="text-md mb-1">
-                      Uploading {Math.round(totalProgress)}% ({processedFiles} of{" "}
-                      {uploadQueue.length})
+                      Uploading {Math.round(totalProgress)}% ({processedFiles}{" "}
+                      of {uploadQueue.length})
                     </p>
                     <p className="text-xs text-muted-foreground">
                       {processedFiles === uploadQueue.length

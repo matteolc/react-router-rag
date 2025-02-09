@@ -21,7 +21,7 @@ export class ChatOpenAIClient {
     this.llm = new ChatOpenAI({
       temperature: temperature ?? 0,
       model: model ?? "gpt-4o-mini",
-      apiKey: env.OPENAI_API_KEY, 
+      apiKey: env.OPENAI_API_KEY,
       callbacks,
     });
   }

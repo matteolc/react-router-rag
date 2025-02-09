@@ -1,9 +1,9 @@
-import type { Row } from '@tanstack/react-table'
-import { TableCell, TableRow } from '~/components/ui/table'
-import { flexRender } from '@tanstack/react-table'
+import type { Row } from "@tanstack/react-table";
+import { TableCell, TableRow } from "~/components/ui/table";
+import { flexRender } from "@tanstack/react-table";
 
 interface DataTableRowProps<TData> {
-  row: Row<TData>
+  row: Row<TData>;
 }
 
 export function DataTableRow<TData>({ row }: DataTableRowProps<TData>) {
@@ -15,5 +15,5 @@ export function DataTableRow<TData>({ row }: DataTableRowProps<TData>) {
         </TableCell>
       ))}
     </TableRow>
-  )
-} 
+  );
+}

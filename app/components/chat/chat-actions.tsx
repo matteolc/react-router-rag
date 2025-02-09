@@ -34,9 +34,7 @@ const ChatActions = ({
           <SendIcon
             className={clsx(
               "h-5 w-5 -ml-0.5 fill-primary",
-              enabled
-                ? "text-primary"
-                : "text-primary opacity-60",
+              enabled ? "text-primary" : "text-primary opacity-60",
             )}
           />
         </button>

@@ -3,37 +3,37 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from '~/components/ui/dialog';
-import { Button } from '~/components/ui/button';
-import { Input } from '~/components/ui/input';
+} from "~/components/ui/dialog";
+import { Button } from "~/components/ui/button";
+import { Input } from "~/components/ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '~/components/ui/select';
-import { typeFilters } from './columns';
-import type { Tables } from '~/db.types';
-import { Textarea } from '~/components/ui/textarea';
-import { useEffect } from 'react';
-import { useFetcher } from 'react-router';
+} from "~/components/ui/select";
+import { typeFilters } from "./columns";
+import type { Tables } from "~/db.types";
+import { Textarea } from "~/components/ui/textarea";
+import { useEffect } from "react";
+import { useFetcher } from "react-router";
 
 export function EditTargetDialog({
   target,
   open,
   onOpenChange,
 }: {
-  target: Tables<'uploads'>;
+  target: Tables<"uploads">;
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }) {
   const fetcher = useFetcher();
-  const isSubmitting = fetcher.state === 'submitting';
+  const isSubmitting = fetcher.state === "submitting";
 
   useEffect(() => {
     if (
-      fetcher.state === 'idle' &&
+      fetcher.state === "idle" &&
       (fetcher.data as { success?: boolean })?.success
     ) {
       onOpenChange(false);
@@ -51,7 +51,7 @@ export function EditTargetDialog({
             <input type="hidden" name="id" value={target.id} />
             <div className="mt-8">
               <Button type="submit" className="w-full" disabled={isSubmitting}>
-                {isSubmitting ? 'Saving...' : 'Save Changes'}
+                {isSubmitting ? "Saving..." : "Save Changes"}
               </Button>
             </div>
           </div>

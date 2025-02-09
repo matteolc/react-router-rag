@@ -72,31 +72,29 @@ export const action = async ({ request, params }: Route.ActionArgs) => {
                   type: "application/pdf",
                 });
 
-                const url = parsedPayload.keepInCloud ? downloadUrl : null
+                const url = parsedPayload.keepInCloud ? downloadUrl : null;
 
                 const { ids, error } = await createUploads({
                   profileId,
                   namespace: uploadNamespace,
                   supabase,
-                })(
-                  [file],
-                  [{ url }],
-                );
+                })([file], [{ url }]);
 
                 if (error) {
                   return;
                 }
 
-                const documents = await PDFProcessor.convertToStructuredDocuments({
-                  files: [file],
-                  metadata: {
-                    namespace: uploadNamespace,
-                    profile_id: profileId,
-                    upload_id: ids[0],
-                    url,
-                  },
-                  supabase,
-                });
+                const documents =
+                  await PDFProcessor.convertToStructuredDocuments({
+                    files: [file],
+                    metadata: {
+                      namespace: uploadNamespace,
+                      profile_id: profileId,
+                      upload_id: ids[0],
+                      url,
+                    },
+                    supabase,
+                  });
                 await vectorStore.addDocumentsToVectorStore({
                   documents,
                 });

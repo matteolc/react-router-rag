@@ -18,7 +18,7 @@ A Retrieval Augmented Generation (RAG) application built with React Router and m
 ### Prerequisites
 
 - Node.js v20+
-- A Supabase account is not needed for local development but it's required for deployment
+- [Supabase CLI](https://supabase.com/docs/guides/local-development/cli/getting-started). A Supabase account is not needed for local development but it's required for deployment
 - A Vercel account and a Vercel Blob Storage key
 - OpenAI API key
 

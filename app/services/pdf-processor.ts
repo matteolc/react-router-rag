@@ -43,16 +43,48 @@ const PDFProcessor = {
         return await Summariser.structure({
           text: document.pageContent,
           schema: z.object({
-            document_type: z.string().describe("Determine the type of document (e.g., research paper, technical report, email, blog post, news article)"),
-            topics: z.array(z.string()).describe("List 3-5 main topics or themes discussed"),
-            key_entities: z.array(z.string()).describe("Extract important named entities (people, organizations, products, technologies)"),
-            time_references: z.array(z.string()).describe("Extract any dates, time periods, or temporal references"),
-            domain: z.string().describe("Identify the primary domain/field (e.g., technology, finance, healthcare)"),
-            technical_level: z.string().describe("Rate technical complexity on scale: basic/intermediate/advanced"),
+            document_type: z
+              .string()
+              .describe(
+                "Determine the type of document (e.g., research paper, technical report, email, blog post, news article)",
+              ),
+            topics: z
+              .array(z.string())
+              .describe("List 3-5 main topics or themes discussed"),
+            key_entities: z
+              .array(z.string())
+              .describe(
+                "Extract important named entities (people, organizations, products, technologies)",
+              ),
+            time_references: z
+              .array(z.string())
+              .describe(
+                "Extract any dates, time periods, or temporal references",
+              ),
+            domain: z
+              .string()
+              .describe(
+                "Identify the primary domain/field (e.g., technology, finance, healthcare)",
+              ),
+            technical_level: z
+              .string()
+              .describe(
+                "Rate technical complexity on scale: basic/intermediate/advanced",
+              ),
             target_audience: z.string().describe("Identify intended audience"),
-            key_terms: z.array(z.string()).describe("List important domain-specific terminology used"),
-            content_structure: z.string().describe("Describe document structure (e.g., sections, headers)"),
-            language_style: z.string().describe("Identify writing style (formal/technical/conversational)"),
+            key_terms: z
+              .array(z.string())
+              .describe("List important domain-specific terminology used"),
+            content_structure: z
+              .string()
+              .describe(
+                "Describe document structure (e.g., sections, headers)",
+              ),
+            language_style: z
+              .string()
+              .describe(
+                "Identify writing style (formal/technical/conversational)",
+              ),
           }),
           prompt: extractMetadataPrompt,
           profile_id: metadata.profile_id as string,

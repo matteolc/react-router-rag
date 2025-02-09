@@ -26,7 +26,7 @@ export const chat = async ({
       new HumanMessage(human),
       new AIMessage(ai),
     ]),
-    input: question.trim().replaceAll("\n", " ")
+    input: question.trim().replaceAll("\n", " "),
   })) as {
     answer: string;
     context: Document[];

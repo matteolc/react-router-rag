@@ -34,21 +34,17 @@ const FormField = React.forwardRef<HTMLDivElement, FormFieldProps>(
     const generatedId = React.useId();
     const contextValue = React.useMemo(
       () => ({ id: id || generatedId, isRequired }),
-      [id, generatedId, isRequired]
+      [id, generatedId, isRequired],
     );
 
     return (
-      <div
-        ref={ref}
-        className={cn("space-y-1", className)}
-        {...props}
-      >
+      <div ref={ref} className={cn("space-y-1", className)} {...props}>
         <FormContext.Provider value={contextValue}>
           {children}
         </FormContext.Provider>
       </div>
     );
-  }
+  },
 );
 FormField.displayName = "FormField";
 
@@ -68,7 +64,7 @@ const FormLabel = React.forwardRef<
       className={cn(
         className,
         "select-none text-base/6 text-zinc-950 data-[disabled]:opacity-50 sm:text-sm/6 dark:text-white",
-        isRequired && "after:ml-0.5 after:text-red-500 after:content-['*']"
+        isRequired && "after:ml-0.5 after:text-red-500 after:content-['*']",
       )}
     >
       {children}
@@ -94,14 +90,7 @@ const FormFieldset = React.forwardRef<
   React.HTMLAttributes<HTMLFieldSetElement>
 >(({ className, ...props }, ref) => {
   return (
-    <fieldset
-      ref={ref}
-      className={cn(
-        "space-y-4",
-        className
-      )}
-      {...props}
-    />
+    <fieldset ref={ref} className={cn("space-y-4", className)} {...props} />
   );
 });
 FormFieldset.displayName = "FormFieldset";
@@ -112,7 +101,7 @@ const FormError = React.forwardRef<
   React.HTMLAttributes<HTMLParagraphElement>
 >(({ className, ...props }, ref) => {
   const { id } = useFormContext();
-  
+
   return (
     <p
       ref={ref}
@@ -132,10 +121,7 @@ const FormFooter = React.forwardRef<
   return (
     <div
       ref={ref}
-      className={cn(
-        "flex justify-end py-4",
-        className
-      )}
+      className={cn("flex justify-end py-4", className)}
       {...props}
     />
   );

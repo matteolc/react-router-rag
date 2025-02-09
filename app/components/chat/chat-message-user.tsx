@@ -21,9 +21,7 @@ const ChatMessageUser = ({ message }: { message: string }) => {
                     <div className="relative items-center flex max-w-[70%] flex-row gap-4 px-5 py-2.5">
                       <p>{message}</p>
                       <Avatar>
-                        <AvatarImage
-                          src="/avatars/01.png"
-                        />
+                        <AvatarImage src="/avatars/01.png" />
                         <AvatarFallback>
                           <User size={16} />
                         </AvatarFallback>

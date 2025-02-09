@@ -39,9 +39,7 @@ const ChatMessageServer = ({
 
       <div className="flex min-w-0 flex-1 flex-col space-y-4">
         <div className="prose *:text-primary prose-strong:text-primary w-full break-words">
-          <ReactMarkdown>
-            {displayResponse}
-          </ReactMarkdown>
+          <ReactMarkdown>{displayResponse}</ReactMarkdown>
         </div>
 
         {context && (
@@ -73,9 +71,7 @@ const ChatMessageServer = ({
                           {cleanName}
                         </span>
                         {extension && (
-                          <Badge className="text-xs">
-                            {extension}
-                          </Badge>
+                          <Badge className="text-xs">{extension}</Badge>
                         )}
                       </div>
                       <div className="mt-1 truncate font-mono text-xs text-muted-foreground">

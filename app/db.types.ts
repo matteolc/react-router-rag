@@ -4,214 +4,214 @@ export type Json =
   | boolean
   | null
   | { [key: string]: Json | undefined }
-  | Json[]
+  | Json[];
 
 export type Database = {
   public: {
     Tables: {
       documents: {
         Row: {
-          content: string
-          embedding: string | null
-          id: string
-          metadata: Json | null
-        }
+          content: string;
+          embedding: string | null;
+          id: string;
+          metadata: Json | null;
+        };
         Insert: {
-          content: string
-          embedding?: string | null
-          id?: string
-          metadata?: Json | null
-        }
+          content: string;
+          embedding?: string | null;
+          id?: string;
+          metadata?: Json | null;
+        };
         Update: {
-          content?: string
-          embedding?: string | null
-          id?: string
-          metadata?: Json | null
-        }
-        Relationships: []
-      }
+          content?: string;
+          embedding?: string | null;
+          id?: string;
+          metadata?: Json | null;
+        };
+        Relationships: [];
+      };
       profiles: {
         Row: {
-          created_at: string | null
-          first_name: string | null
-          id: string
-          last_name: string | null
-        }
+          created_at: string | null;
+          first_name: string | null;
+          id: string;
+          last_name: string | null;
+        };
         Insert: {
-          created_at?: string | null
-          first_name?: string | null
-          id?: string
-          last_name?: string | null
-        }
+          created_at?: string | null;
+          first_name?: string | null;
+          id?: string;
+          last_name?: string | null;
+        };
         Update: {
-          created_at?: string | null
-          first_name?: string | null
-          id?: string
-          last_name?: string | null
-        }
-        Relationships: []
-      }
+          created_at?: string | null;
+          first_name?: string | null;
+          id?: string;
+          last_name?: string | null;
+        };
+        Relationships: [];
+      };
       token_aggregation: {
         Row: {
-          model: string
-          namespace: string
-          profile_id: string
-          service: Database["public"]["Enums"]["service_enum"]
-          time_bucket: string
-          total_completion_tokens: number
-          total_prompt_tokens: number
-          total_tokens: number | null
-        }
+          model: string;
+          namespace: string;
+          profile_id: string;
+          service: Database["public"]["Enums"]["service_enum"];
+          time_bucket: string;
+          total_completion_tokens: number;
+          total_prompt_tokens: number;
+          total_tokens: number | null;
+        };
         Insert: {
-          model: string
-          namespace: string
-          profile_id: string
-          service: Database["public"]["Enums"]["service_enum"]
-          time_bucket: string
-          total_completion_tokens: number
-          total_prompt_tokens: number
-          total_tokens?: number | null
-        }
+          model: string;
+          namespace: string;
+          profile_id: string;
+          service: Database["public"]["Enums"]["service_enum"];
+          time_bucket: string;
+          total_completion_tokens: number;
+          total_prompt_tokens: number;
+          total_tokens?: number | null;
+        };
         Update: {
-          model?: string
-          namespace?: string
-          profile_id?: string
-          service?: Database["public"]["Enums"]["service_enum"]
-          time_bucket?: string
-          total_completion_tokens?: number
-          total_prompt_tokens?: number
-          total_tokens?: number | null
-        }
+          model?: string;
+          namespace?: string;
+          profile_id?: string;
+          service?: Database["public"]["Enums"]["service_enum"];
+          time_bucket?: string;
+          total_completion_tokens?: number;
+          total_prompt_tokens?: number;
+          total_tokens?: number | null;
+        };
         Relationships: [
           {
-            foreignKeyName: "token_aggregation_profile_id_fkey"
-            columns: ["profile_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
+            foreignKeyName: "token_aggregation_profile_id_fkey";
+            columns: ["profile_id"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
           },
-        ]
-      }
+        ];
+      };
       token_consumption: {
         Row: {
-          chat_id: string | null
-          completion_tokens: number
-          created_at: string | null
-          id: string
-          message_id: string
-          model: string
-          namespace: string
-          profile_id: string
-          prompt_tokens: number
-          service: Database["public"]["Enums"]["service_enum"]
-        }
+          chat_id: string | null;
+          completion_tokens: number;
+          created_at: string | null;
+          id: string;
+          message_id: string;
+          model: string;
+          namespace: string;
+          profile_id: string;
+          prompt_tokens: number;
+          service: Database["public"]["Enums"]["service_enum"];
+        };
         Insert: {
-          chat_id?: string | null
-          completion_tokens: number
-          created_at?: string | null
-          id?: string
-          message_id: string
-          model: string
-          namespace: string
-          profile_id: string
-          prompt_tokens: number
-          service: Database["public"]["Enums"]["service_enum"]
-        }
+          chat_id?: string | null;
+          completion_tokens: number;
+          created_at?: string | null;
+          id?: string;
+          message_id: string;
+          model: string;
+          namespace: string;
+          profile_id: string;
+          prompt_tokens: number;
+          service: Database["public"]["Enums"]["service_enum"];
+        };
         Update: {
-          chat_id?: string | null
-          completion_tokens?: number
-          created_at?: string | null
-          id?: string
-          message_id?: string
-          model?: string
-          namespace?: string
-          profile_id?: string
-          prompt_tokens?: number
-          service?: Database["public"]["Enums"]["service_enum"]
-        }
+          chat_id?: string | null;
+          completion_tokens?: number;
+          created_at?: string | null;
+          id?: string;
+          message_id?: string;
+          model?: string;
+          namespace?: string;
+          profile_id?: string;
+          prompt_tokens?: number;
+          service?: Database["public"]["Enums"]["service_enum"];
+        };
         Relationships: [
           {
-            foreignKeyName: "token_consumption_profile_id_fkey"
-            columns: ["profile_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
+            foreignKeyName: "token_consumption_profile_id_fkey";
+            columns: ["profile_id"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
           },
-        ]
-      }
+        ];
+      };
       uploads: {
         Row: {
-          created_at: string | null
-          id: string
-          metadata: Json | null
-          name: string
-          namespace: string
-          profile_id: string
-          size: number
-          type: string
-          updated_at: string | null
-        }
+          created_at: string | null;
+          id: string;
+          metadata: Json | null;
+          name: string;
+          namespace: string;
+          profile_id: string;
+          size: number;
+          type: string;
+          updated_at: string | null;
+        };
         Insert: {
-          created_at?: string | null
-          id?: string
-          metadata?: Json | null
-          name: string
-          namespace: string
-          profile_id: string
-          size: number
-          type: string
-          updated_at?: string | null
-        }
+          created_at?: string | null;
+          id?: string;
+          metadata?: Json | null;
+          name: string;
+          namespace: string;
+          profile_id: string;
+          size: number;
+          type: string;
+          updated_at?: string | null;
+        };
         Update: {
-          created_at?: string | null
-          id?: string
-          metadata?: Json | null
-          name?: string
-          namespace?: string
-          profile_id?: string
-          size?: number
-          type?: string
-          updated_at?: string | null
-        }
+          created_at?: string | null;
+          id?: string;
+          metadata?: Json | null;
+          name?: string;
+          namespace?: string;
+          profile_id?: string;
+          size?: number;
+          type?: string;
+          updated_at?: string | null;
+        };
         Relationships: [
           {
-            foreignKeyName: "uploads_profile_id_fkey"
-            columns: ["profile_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
+            foreignKeyName: "uploads_profile_id_fkey";
+            columns: ["profile_id"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
           },
-        ]
-      }
-    }
+        ];
+      };
+    };
     Views: {
-      [_ in never]: never
-    }
+      [_ in never]: never;
+    };
     Functions: {
       match_documents: {
         Args: {
-          query_embedding: string
-          match_count?: number
-          filter?: Json
-        }
+          query_embedding: string;
+          match_count?: number;
+          filter?: Json;
+        };
         Returns: {
-          id: string
-          content: string
-          metadata: Json
-          similarity: number
-        }[]
-      }
-    }
+          id: string;
+          content: string;
+          metadata: Json;
+          similarity: number;
+        }[];
+      };
+    };
     Enums: {
-      service_enum: "chat" | "summarization" | "extraction" | "other"
-    }
+      service_enum: "chat" | "summarization" | "extraction" | "other";
+    };
     CompositeTypes: {
-      [_ in never]: never
-    }
-  }
-}
+      [_ in never]: never;
+    };
+  };
+};
 
-type PublicSchema = Database[Extract<keyof Database, "public">]
+type PublicSchema = Database[Extract<keyof Database, "public">];
 
 export type Tables<
   PublicTableNameOrOptions extends
@@ -224,7 +224,7 @@ export type Tables<
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
       Database[PublicTableNameOrOptions["schema"]]["Views"])[TableName] extends {
-      Row: infer R
+      Row: infer R;
     }
     ? R
     : never
@@ -232,11 +232,11 @@ export type Tables<
         PublicSchema["Views"])
     ? (PublicSchema["Tables"] &
         PublicSchema["Views"])[PublicTableNameOrOptions] extends {
-        Row: infer R
+        Row: infer R;
       }
       ? R
       : never
-    : never
+    : never;
 
 export type TablesInsert<
   PublicTableNameOrOptions extends
@@ -247,17 +247,17 @@ export type TablesInsert<
     : never = never,
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
-      Insert: infer I
+      Insert: infer I;
     }
     ? I
     : never
   : PublicTableNameOrOptions extends keyof PublicSchema["Tables"]
     ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
-        Insert: infer I
+        Insert: infer I;
       }
       ? I
       : never
-    : never
+    : never;
 
 export type TablesUpdate<
   PublicTableNameOrOptions extends
@@ -268,17 +268,17 @@ export type TablesUpdate<
     : never = never,
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
-      Update: infer U
+      Update: infer U;
     }
     ? U
     : never
   : PublicTableNameOrOptions extends keyof PublicSchema["Tables"]
     ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
-        Update: infer U
+        Update: infer U;
       }
       ? U
       : never
-    : never
+    : never;
 
 export type Enums<
   PublicEnumNameOrOptions extends
@@ -291,14 +291,14 @@ export type Enums<
   ? Database[PublicEnumNameOrOptions["schema"]]["Enums"][EnumName]
   : PublicEnumNameOrOptions extends keyof PublicSchema["Enums"]
     ? PublicSchema["Enums"][PublicEnumNameOrOptions]
-    : never
+    : never;
 
 export type CompositeTypes<
   PublicCompositeTypeNameOrOptions extends
     | keyof PublicSchema["CompositeTypes"]
     | { schema: keyof Database },
   CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
-    schema: keyof Database
+    schema: keyof Database;
   }
     ? keyof Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
     : never = never,
@@ -306,5 +306,4 @@ export type CompositeTypes<
   ? Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
   : PublicCompositeTypeNameOrOptions extends keyof PublicSchema["CompositeTypes"]
     ? PublicSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
-    : never
-
+    : never;

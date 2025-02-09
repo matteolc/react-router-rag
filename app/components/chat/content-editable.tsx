@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef } from "react";
 
 export default function Contenteditable({
   value,
@@ -22,7 +22,7 @@ export default function Contenteditable({
       contentEditableRef.current?.textContent !== value
     ) {
       contentEditableRef.current.textContent = value;
-      contentEditableRef.current.style.height = 'auto';
+      contentEditableRef.current.style.height = "auto";
       contentEditableRef.current.style.height = `${contentEditableRef.current.scrollHeight}px`;
     }
   }, [contentEditableRef, value]);
@@ -32,7 +32,7 @@ export default function Contenteditable({
       contentEditable
       ref={contentEditableRef}
       onInput={(event) => {
-        onChange((event.target as HTMLInputElement).textContent ?? '');
+        onChange((event.target as HTMLInputElement).textContent ?? "");
       }}
       {...props}
     />
