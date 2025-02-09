@@ -47,9 +47,9 @@ export const columns: ColumnDef<Tables<"uploads">>[] = [
   {
     accessorKey: "name",
     size: 450,
-    header: ({ column }) => (
+    header: ({ column, table }) => (
       <div className="w-[450px]">
-        <DataTableColumnHeader column={column} title="Name" />
+        <DataTableColumnHeader column={column} title="Name" table={table} />
       </div>
     ),
     cell: ({ row }) => (
@@ -65,9 +65,9 @@ export const columns: ColumnDef<Tables<"uploads">>[] = [
     size: 140,
     minSize: 140,
     maxSize: 140,
-    header: ({ column }) => (
+    header: ({ column, table }) => (
       <div className="w-[140px] flex justify-end">
-        <DataTableColumnHeader column={column} title="Size" />
+        <DataTableColumnHeader column={column} title="Size" table={table} />
       </div>
     ),
     cell: ({ row }) => (
@@ -81,9 +81,9 @@ export const columns: ColumnDef<Tables<"uploads">>[] = [
     size: 60,
     minSize: 60,
     maxSize: 60,
-    header: ({ column }) => (
+    header: ({ column, table }) => (
       <div className="w-[60px] flex justify-end">
-        <DataTableColumnHeader column={column} title="Type" />
+        <DataTableColumnHeader column={column} title="Type" table={table} />
       </div>
     ),
     cell: ({ row }) => (

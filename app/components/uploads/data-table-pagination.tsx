@@ -7,72 +7,161 @@ import {
   SelectTrigger,
   SelectValue,
 } from "~/components/ui/select";
-import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
-import { Link, useSearchParams } from "react-router";
-import { generateQueryParams } from "~/lib/table";
+import { useNavigate } from "react-router";
+import { DEFAULT_PER_PAGE, generateQueryParams } from "~/lib/table";
+import {
+  ChevronLeft,
+  ChevronRight,
+  ChevronsLeft,
+  ChevronsRight,
+} from "lucide-react";
+import clsx from "clsx";
 
 interface DataTablePaginationProps<TData> {
   table: Table<TData>;
-  totalRows: number;
-  page: number;
-  perPage: number;
 }
 
 export function DataTablePagination<TData>({
   table,
-  totalRows,
-  page,
-  perPage,
 }: DataTablePaginationProps<TData>) {
-  const start = (page - 1) * perPage + 1;
-  const end = Math.min(page * perPage, totalRows);
-  const totalPages = Math.ceil(totalRows / perPage);
+  const navigate = useNavigate();
 
   return (
     <div className="flex items-center justify-between px-2">
-      <div className="flex-1 text-sm text-muted-foreground">
-        {start}-{end} of {totalRows}
+      <div
+        className={clsx(
+          "flex-1 text-sm text-muted-foreground",
+          table.getFilteredRowModel().rows.length === 0 && "opacity-20",
+        )}
+      >
+        {table.getFilteredSelectedRowModel().rows.length} of{" "}
+        {table.getFilteredRowModel().rows.length} row(s) selected.
       </div>
-
       <div className="flex items-center space-x-6 lg:space-x-8">
-        <div className="flex items-center space-x-2">
+        <div
+          className={clsx(
+            "flex items-center space-x-2",
+            table.getFilteredRowModel().rows.length === 0 && "opacity-20",
+          )}
+        >
+          <p className="text-sm font-medium">Rows per page</p>
+          <Select
+            value={`${table.getState().pagination.pageSize ?? DEFAULT_PER_PAGE}`}
+            onValueChange={(value) => {
+              table.setPageSize(Number(value));
+              navigate(
+                `?${generateQueryParams({
+                  page: 1,
+                  perPage: Number(value),
+                })}`,
+                { replace: true },
+              );
+            }}
+          >
+            <SelectTrigger className="h-8 w-[70px] border-border">
+              <SelectValue placeholder={table.getState().pagination.pageSize} />
+            </SelectTrigger>
+            <SelectContent side="top" className="min-w-[70px]">
+              {[10, 20, 30, 40, 50].map((pageSize) => (
+                <SelectItem
+                  key={pageSize}
+                  value={`${pageSize}`}
+                  className="max-w-[70px]"
+                >
+                  {pageSize}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+        <div
+          className={clsx(
+            "flex w-[100px] items-center justify-center text-sm font-medium",
+            table.getFilteredRowModel().rows.length === 0 && "opacity-20",
+          )}
+        >
+          Page {table.getState().pagination.pageIndex + 1} of{" "}
+          {table.getPageCount()}
+        </div>
+        <div className="flex items-center space-x-1">
           <Button
             variant="outline"
-            className="h-8 w-8 p-0"
-            asChild
-            disabled={page === 1}
+            className="hidden h-8 w-8 p-0 lg:flex border-border"
+            onClick={() => {
+              table.setPageIndex(0);
+              navigate(
+                `?${generateQueryParams({
+                  page: 1,
+                  sort: table.getState().sorting[0]?.id,
+                  order: table.getState().sorting[0]?.desc ? "desc" : "asc",
+                  filters: table.getState().columnFilters,
+                })}`,
+                { replace: true },
+              );
+            }}
+            disabled={!table.getCanPreviousPage()}
           >
-            <Link
-              aria-disabled={page === 1}
-              className="aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none"
-              to={`?${generateQueryParams({
-                page: page - 1,
-                sort: table.getState().sorting[0]?.id,
-                order: table.getState().sorting[0]?.desc ? "desc" : "asc",
-                filters: table.getState().columnFilters,
-              })}`}
-            >
-              <ChevronLeftIcon className="h-4 w-4" />
-            </Link>
+            <span className="sr-only">Go to first page</span>
+            <ChevronsLeft />
           </Button>
           <Button
             variant="outline"
-            className="h-8 w-8 p-0"
-            asChild
-            disabled={page >= totalPages}
+            className="h-8 w-8 p-0 border-border"
+            onClick={() => {
+              table.previousPage();
+              navigate(
+                `?${generateQueryParams({
+                  page: table.getState().pagination.pageIndex,
+                  sort: table.getState().sorting[0]?.id,
+                  order: table.getState().sorting[0]?.desc ? "desc" : "asc",
+                  filters: table.getState().columnFilters,
+                })}`,
+                { replace: true },
+              );
+            }}
+            disabled={!table.getCanPreviousPage()}
           >
-            <Link
-              aria-disabled={page >= totalPages}
-              className="aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none"
-              to={`?${generateQueryParams({
-                page: page + 1,
-                sort: table.getState().sorting[0]?.id,
-                order: table.getState().sorting[0]?.desc ? "desc" : "asc",
-                filters: table.getState().columnFilters,
-              })}`}
-            >
-              <ChevronRightIcon className="h-4 w-4" />
-            </Link>
+            <span className="sr-only">Go to previous page</span>
+            <ChevronLeft />
+          </Button>
+          <Button
+            variant="outline"
+            className="h-8 w-8 p-0 border-border"
+            onClick={() => {
+              table.nextPage();
+              navigate(
+                `?${generateQueryParams({
+                  page: table.getState().pagination.pageIndex + 2,
+                  sort: table.getState().sorting[0]?.id,
+                  order: table.getState().sorting[0]?.desc ? "desc" : "asc",
+                  filters: table.getState().columnFilters,
+                })}`,
+              );
+            }}
+            disabled={!table.getCanNextPage()}
+          >
+            <span className="sr-only">Go to next page</span>
+            <ChevronRight />
+          </Button>
+          <Button
+            variant="outline"
+            className="hidden h-8 w-8 p-0 lg:flex border-border"
+            onClick={() => {
+              table.setPageIndex(table.getPageCount() - 1);
+              navigate(
+                `?${generateQueryParams({
+                  page: table.getPageCount(),
+                  sort: table.getState().sorting[0]?.id,
+                  order: table.getState().sorting[0]?.desc ? "desc" : "asc",
+                  filters: table.getState().columnFilters,
+                })}`,
+                { replace: true },
+              );
+            }}
+            disabled={!table.getCanNextPage()}
+          >
+            <span className="sr-only">Go to last page</span>
+            <ChevronsRight />
           </Button>
         </div>
       </div>

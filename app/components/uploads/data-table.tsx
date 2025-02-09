@@ -11,9 +11,6 @@ import {
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
-  type RowSelectionState,
-  type OnChangeFn,
-  type TableMeta,
 } from "@tanstack/react-table";
 
 import { DataTableToolbar } from "./data-table-toolbar";
@@ -77,12 +74,7 @@ export function UploadsTable({
     <div className="space-y-4">
       <DataTableToolbar table={table} />
       <BaseDataTable table={table} />
-      <DataTablePagination
-        table={table}
-        totalRows={totalRows}
-        page={page}
-        perPage={perPage}
-      />
+      <DataTablePagination table={table} />
     </div>
   );
 }

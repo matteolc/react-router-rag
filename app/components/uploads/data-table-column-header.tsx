@@ -1,4 +1,4 @@
-import type { Column } from "@tanstack/react-table";
+import type { Column, Table } from "@tanstack/react-table";
 import { ArrowDown, ArrowUp, ChevronsUpDown, EyeOff } from "lucide-react";
 
 import { Button } from "~/components/ui/button";
@@ -15,12 +15,14 @@ interface DataTableColumnHeaderProps<TData, TValue>
   extends React.HTMLAttributes<HTMLDivElement> {
   column: Column<TData, TValue>;
   title: string;
+  table?: Table<TData>;
 }
 
 export function DataTableColumnHeader<TData, TValue>({
   column,
   title,
   className,
+  table,
 }: DataTableColumnHeaderProps<TData, TValue>) {
   if (!column.getCanSort()) {
     return <div className={cn(className)}>{title}</div>;
@@ -33,6 +35,7 @@ export function DataTableColumnHeader<TData, TValue>({
           <Button
             variant="ghost"
             size="sm"
+            disabled={table?.getFilteredRowModel().rows.length === 0}
             className="-ml-3 h-8 data-[state=open]:bg-accent"
           >
             <span>{title}</span>

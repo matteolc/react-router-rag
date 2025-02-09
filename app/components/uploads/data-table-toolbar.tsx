@@ -30,7 +30,7 @@ export function DataTableToolbar<TData>({
           onChange={(e) =>
             table.getColumn("name")?.setFilterValue(e.target.value)
           }
-          className="h-8 w-[150px] lg:w-[250px]"
+          className="h-8 w-[150px] lg:w-[250px] border-border"
         />
         {typeColumn && (
           <DataTableFacetedFilter
