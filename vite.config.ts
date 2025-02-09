@@ -3,7 +3,6 @@ import tailwindcss from "@tailwindcss/vite";
 import { defineConfig, loadEnv } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
 import dotenvExpand from "dotenv-expand";
-import { installGlobals } from "@remix-run/node";
 
 export default defineConfig(({ isSsrBuild, command, mode }) => {
 	let define: Record<string, string> = {};
@@ -24,8 +23,6 @@ export default defineConfig(({ isSsrBuild, command, mode }) => {
 			),
 		};
 	}
-
-	installGlobals({ nativeFetch: true });
 
 	return {
 		define,

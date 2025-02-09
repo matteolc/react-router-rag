@@ -76,7 +76,6 @@
 		"@biomejs/biome": "^1.9.4",
 		"@faker-js/faker": "^9.4.0",
 		"@react-router/dev": "^7.1.5",
-		"@remix-run/node": "^2.15.3",
 		"@tailwindcss/typography": "^0.5.16",
 		"@tailwindcss/vite": "^4.0.3",
 		"@types/express": "^5.0.0",
