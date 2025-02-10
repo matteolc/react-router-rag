@@ -49,6 +49,11 @@
   --color-sidebar-border: oklch(var(--sidebar-border));
   --color-sidebar-ring: oklch(var(--sidebar-ring));
 
+  --color-surface-container: oklch(var(--surface-container));
+  --color-surface-container-lowest: oklch(var(--surface-container-lowest));
+  --color-surface-container-high: oklch(var(--surface-container-high));
+  --color-surface-container-highest: oklch(var(--surface-container-highest));
+
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 2px);
   --radius-sm: calc(var(--radius) - 4px);
