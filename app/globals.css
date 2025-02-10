@@ -34,13 +34,13 @@
   --color-input: oklch(var(--input));
   --color-ring: oklch(var(--ring));
 
-  --color-chart-1: oklch(var(--chart-1));
-  --color-chart-2: oklch(var(--chart-2));
-  --color-chart-3: oklch(var(--chart-3));
-  --color-chart-4: oklch(var(--chart-4));
-  --color-chart-5: oklch(var(--chart-5));
+  --color-chart-1: oklch(var(--primary-rainbow-0));
+  --color-chart-2: oklch(var(--primary-rainbow-1));
+  --color-chart-3: oklch(var(--primary-rainbow-2));
+  --color-chart-4: oklch(var(--primary-rainbow-3));
+  --color-chart-5: oklch(var(--primary-rainbow-4));
 
-  --color-sidebar: oklch(var(--sidebar-background));
+  --color-sidebar: oklch(var(--sidebar));
   --color-sidebar-foreground: oklch(var(--sidebar-foreground));
   --color-sidebar-primary: oklch(var(--sidebar-primary));
   --color-sidebar-primary-foreground: oklch(var(--sidebar-primary-foreground));

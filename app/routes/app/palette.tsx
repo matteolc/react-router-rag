@@ -1,14 +1,23 @@
-import { ThemePalette } from "@palettebro/theme-toolbar";
-import { Heading } from "~/components/ui/heading";
-import { HeadingWrapper } from "~/components/ui/heading";
+import { ThemePalette, ThemeUtilitiesDisplay } from "@palettebro/theme-toolbar";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 
 export default function Screen() {
   return (
-    <>
-      <HeadingWrapper>
-        <Heading>Palette</Heading>
-      </HeadingWrapper>
-      <ThemePalette />
-    </>
+    <Tabs defaultValue="palette" className="space-y-4">
+      <TabsList className="h-8">
+        <TabsTrigger value="palette" className="text-xs px-2 py-1">
+          Palette
+        </TabsTrigger>
+        <TabsTrigger value="utilities" className="text-xs px-2 py-1">
+          Utilities
+        </TabsTrigger>
+      </TabsList>
+      <TabsContent value="palette">
+        <ThemePalette />
+      </TabsContent>
+      <TabsContent value="utilities">
+        <ThemeUtilitiesDisplay />
+      </TabsContent>
+    </Tabs>
   );
 }

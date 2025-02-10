@@ -9,7 +9,7 @@ export const themes = {
     "color-scheme": "light" as const,
     variant: ThemeVariantEnum.mui,
     debug: true,
-    preset: "tonal-spot" as MuiThemePreset,
+    preset: "content" as MuiThemePreset,
     baseColors: {
       primary: "#9fc131",
     },
@@ -18,7 +18,7 @@ export const themes = {
     "color-scheme": "dark" as const,
     variant: ThemeVariantEnum.mui,
     debug: true,
-    preset: "tonal-spot" as MuiThemePreset,
+    preset: "content" as MuiThemePreset,
     baseColors: {
       primary: "#9fc131",
     },

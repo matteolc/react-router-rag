@@ -56,7 +56,7 @@ function TokenUsage({
   }
 
   return (
-    <div className="fixed top-4 right-4 z-50 bg-background/80 backdrop-blur-sm p-4 rounded-lg shadow-lg border">
+    <div className="fixed top-4 right-14 z-50 bg-background/80 backdrop-blur-sm p-4 rounded-lg shadow-lg border">
       <div className="flex flex-col gap-2 min-w-[200px]">
         <div className="flex justify-between items-center">
           <span className="text-sm font-medium">{usage.model}</span>
@@ -269,7 +269,7 @@ export default function Screen() {
       <TokenUsage usage={usage} key={usage.toString()} />
       <div className="hidden h-full flex-1 flex-col space-y-4 md:flex">
         {chatMessages.length > 0 && (
-          <div className="flex w-full items-center justify-between border-b border-border pb-6">
+          <div className="flex w-full items-center justify-between pb-6">
             <Button
               color="secondary"
               onClick={() => setMessageState(EMPTY_MESSAGE_STATE)}
