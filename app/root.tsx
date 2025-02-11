@@ -54,7 +54,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body>
+      <body key={theme}>
         <PaletteProvider lightOrDark={theme} themes={themes}>
           {children}
         </PaletteProvider>

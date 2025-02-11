@@ -17,9 +17,6 @@ import { ChatOpenAIClient } from "~/openai.server";
 import condensePrompt from "~/prompts/condense-prompt";
 import type { LLMResult } from "@langchain/core/outputs";
 import { saveTokenUsage } from "./account-usage";
-
-const EMBEDDING_MODEL = "text-embedding-3-small";
-
 export class VectorStore {
   private readonly vectorStore: SupabaseVectorStore;
   private readonly embeddings: OpenAIEmbeddings;
@@ -29,7 +26,7 @@ export class VectorStore {
     const { supabase } = createSupabaseServerClient(request);
     this.supabase = supabase;
     this.embeddings = new OpenAIEmbeddings({
-      model: EMBEDDING_MODEL,
+      model: "text-embedding-3-small",
       apiKey: env.OPENAI_API_KEY,
     });
     this.vectorStore = new SupabaseVectorStore(this.embeddings, {
