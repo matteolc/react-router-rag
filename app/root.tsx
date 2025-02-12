@@ -16,6 +16,7 @@ import "./globals.css";
 import "./typography.css";
 import { themes } from "./themes";
 import { PaletteProvider } from "@palettebro/theme-toolbar";
+import { TranslationsProvider } from "./hooks/translations-context";
 
 export function meta() {
   return [
@@ -55,9 +56,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body key={theme}>
-        <PaletteProvider lightOrDark={theme} themes={themes}>
-          {children}
-        </PaletteProvider>
+        <TranslationsProvider>
+          <PaletteProvider lightOrDark={theme} themes={themes}>
+            {children}
+          </PaletteProvider>
+        </TranslationsProvider>
         <ScrollRestoration />
         <Scripts />
       </body>

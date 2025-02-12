@@ -13,6 +13,7 @@ export default [
     route("uploads/:id", "./routes/app/uploads.$id.tsx"),
     route("chat", "./routes/app/chat.tsx"),
     route("palette", "./routes/app/palette.tsx"),
+    route("voice", "./routes/app/voice.tsx"),
   ]),
   layout("./routes/public/layout.tsx", [
     route("login", "./routes/public/login.tsx"),
@@ -26,4 +27,5 @@ export default [
   route("api/onboard", "./routes/api/onboard.ts"),
   route("api/upload/:type", "./routes/api/upload.($type).ts"),
   route("api/chat", "./routes/api/chat.ts"),
+  route("api/voice", "./routes/api/voice.ts"),
 ] satisfies RouteConfig;
